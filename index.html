@@ -13,7 +13,7 @@
             primary: '#f5e7d0',
             primary2: '#e8d9c0',
             secondary: '#432f25',
-            accent: '#c8b697'
+            accent: '#5c4032'
           },
           fontFamily: {
             title: ['"Bernard MT Condensed"', 'serif'],
@@ -55,10 +55,65 @@
   </style>
 
 </head>
+<nav class="bg-secondary top-0 z-50 shadow-md">
+    <div class="container mx-auto px-4 sm:px-6 py-3 md:py-4">
+        <div class="flex items-center justify-between">
+            <!-- Logo/Brand -->
+            <div class="flex items-center">
+                <a href="#" class="flex items-center">
+                    <img src="assets/logo.png" alt="FARMesilla" class="h-28 md:h-28">
+                </a>
+            </div>
 
-<body class="bg-primary text-secondary">
+            <!-- Desktop Navigation -->
+            <div class="hidden md:flex items-center space-x-8">
+                <a href="#" class="text-primary text-sm md:text-base tracking-wider hover:text-accent transition duration-300 font-title">HOME</a>
+                <a href="#catering-menu" class="text-primary text-sm md:text-base tracking-wider hover:text-accent transition duration-300 font-title">CATERING</a>
+                <a href="#" class="text-primary text-sm md:text-base tracking-wider hover:text-accent transition duration-300 font-title">MENU</a>
+                <a href="#" class="text-primary text-sm md:text-base tracking-wider hover:text-accent transition duration-300 font-title">ABOUT</a>
+                <a href="#" class="text-primary text-sm md:text-base tracking-wider hover:text-accent transition duration-300 font-title">CONTACT</a>
+                <a href="#catering-form" class="bg-primary text-secondary px-4 py-2 rounded-full hover:bg-accent transition duration-300 text-sm tracking-wider font-title">ORDER NOW</a>
+            </div>
+
+            <!-- Mobile menu button -->
+            <div class="md:hidden">
+                <button type="button" class="mobile-menu-button text-primary focus:outline-none">
+                    <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                    </svg>
+                </button>
+            </div>
+        </div>
+
+<!-- Mobile Navigation (hidden by default) -->
+<div class="mobile-menu hidden md:hidden pt-4 pb-2">
+    <div class="flex flex-col items-center justify-center space-y-3 text-center">
+        <a href="#" class="block px-3 py-2 hover:text-accent text-primary text-sm tracking-wider font-title">HOME</a>
+        <a href="#catering-menu" class="block hover:text-accent px-3 py-2 text-primary text-sm tracking-wider font-title">CATERING</a>
+        <a href="#" class="block px-3 py-2 hover:text-accent text-primary text-sm tracking-wider font-title">MENU</a>
+        <a href="#" class="block px-3 py-2 hover:text-accent text-primary text-sm tracking-wider font-title">ABOUT</a>
+        <a href="#" class="block px-3 py-2 hover:text-accent text-primary text-sm tracking-wider font-title">CONTACT</a>
+        <a href="#catering-form" class="block hover:text-accent bg-primary text-secondary text-center px-4 py-2 rounded-full text-sm tracking-wider mt-2 font-title">ORDER NOW</a>
+    </div>
+</div>
+
+    </div>
+</nav>
+
+<script>
+    // Mobile menu toggle
+    const mobileMenuButton = document.querySelector('.mobile-menu-button');
+    const mobileMenu = document.querySelector('.mobile-menu');
+    
+    mobileMenuButton.addEventListener('click', () => {
+        mobileMenu.classList.toggle('hidden');
+    });
+</script>
+<body class="bg-primary text-secondary"
+      style="background-image: url('https://www.transparenttextures.com/patterns/light-paper-fibers.png'); background-repeat: repeat; background-size: auto;">
+
 <!-- Catering Menu Section -->
-<section id="catering-menu" class="py-12 md:py-20 bg-primary2 section-curve">
+<section id="catering-menu" class="py-12 md:py-20 section-curve">
     <form action="https://formspree.io/f/meogonnn" method="POST" id="catering-form">
     <div class="container mx-auto px-4 sm:px-6 section-content">
         <!-- Menu Intro -->
@@ -107,7 +162,7 @@
                             </div>
                         </div>
                     </div>
-                    <img src="https://example.com/turkey-torta.jpg" alt="Achiote-Lime Turkey Torta" class="menu-item-image w-24 h-24 object-cover rounded-lg border-2 border-accent">
+                    <img src="assets/farm.jpg" alt="Achiote-Lime Turkey Torta" class="menu-item-image w-24 h-24 object-cover rounded-lg border-2 border-accent">
                 </div>
                 
                 <!-- Item 2 -->
@@ -124,7 +179,7 @@
                             </div>
                         </div>
                     </div>
-                    <img src="https://example.com/ham-gouda-torta.jpg" alt="Ham & Smoked Gouda Torta" class="menu-item-image w-24 h-24 object-cover rounded-lg border-2 border-accent">
+                   <img src="assets/farm.jpg" alt="Ham & Smoked Gouda Torta" class="menu-item-image w-24 h-24 object-cover rounded-lg border-2 border-accent">
                 </div>
                 
                 <!-- Item 3 -->
@@ -141,7 +196,7 @@
                             </div>
                         </div>
                     </div>
-                    <img src="https://example.com/chicken-avocado-wrap.jpg" alt="Chicken Avocado B.L.T. Wrap" class="menu-item-image w-24 h-24 object-cover rounded-lg border-2 border-accent">
+                    <img src="assets/farm.jpg" alt="Chicken Avocado B.L.T. Wrap" class="menu-item-image w-24 h-24 object-cover rounded-lg border-2 border-accent">
                 </div>
                 
                 <!-- Item 4 -->
@@ -159,7 +214,7 @@
                             </div>
                         </div>
                     </div>
-                    <img src="https://example.com/farmgirl-burrito.jpg" alt="Farmgirl Burrito Wrap" class="menu-item-image w-24 h-24 object-cover rounded-lg border-2 border-accent">
+                   <img src="assets/farm.jpg" alt="Farmgirl Burrito Wrap" class="menu-item-image w-24 h-24 object-cover rounded-lg border-2 border-accent">
                 </div>
             </div>
             
@@ -191,7 +246,7 @@
                             </div>
                         </div>
                     </div>
-                    <img src="https://example.com/blue-corn-salad.jpg" alt="Blue Corn Avocado Kale Salad" class="menu-item-image w-24 h-24 object-cover rounded-lg border-2 border-accent">
+                    <img src="assets/farm.jpg" alt="Blue Corn Avocado Kale Salad" class="menu-item-image w-24 h-24 object-cover rounded-lg border-2 border-accent">
                 </div>
                 
                 <!-- Item 2 -->
@@ -208,7 +263,7 @@
                             </div>
                         </div>
                     </div>
-                    <img src="https://example.com/avocado-ensalada.jpg" alt="Avocado Casa Ensalada" class="menu-item-image w-24 h-24 object-cover rounded-lg border-2 border-accent">
+                    <img src="assets/farm.jpg" alt="Avocado Casa Ensalada" class="menu-item-image w-24 h-24 object-cover rounded-lg border-2 border-accent">
                 </div>
                 
                 <!-- Item 3 -->
@@ -225,7 +280,7 @@
                             </div>
                         </div>
                     </div>
-                    <img src="https://example.com/sweet-potato-bowl.jpg" alt="Sweet Potato Avocado Bowl" class="menu-item-image w-24 h-24 object-cover rounded-lg border-2 border-accent">
+                    <img src="assets/farm.jpg" alt="Sweet Potato Avocado Bowl" class="menu-item-image w-24 h-24 object-cover rounded-lg border-2 border-accent">
                 </div>
                 
                 <!-- Item 4 -->
@@ -841,6 +896,7 @@
             </div>
             <div class="text-center">
                 <p class="text-xs md:text-sm mb-4 md:mb-6 tracking-wider">ONCE SUBMITTED, A STAFF MEMBER WILL REVIEW YOUR FORM AND WILL REACH OUT FOR CONFIRMATION.</p>
+                <p class="text-xs md:text-sm mb-4 md:mb-6 tracking-wider">FOR ANY QUESTIONS, EMAIL CHEF@FARMESILLA.COM</p>
                 <button type="submit" class="bg-secondary text-primary px-6 md:px-8 py-2 md:py-3 rounded-full hover:bg-accent transition duration-300 tracking-wider text-sm md:text-base">SUBMIT ORDER</button>
             </div>
         </div>
@@ -857,7 +913,77 @@
     </div>
     </form>
 </section>
+<footer class="bg-secondary text-primary py-12 md:py-16">
+    <div class="container mx-auto px-4 sm:px-6">
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-8 md:gap-12">
+            <!-- Logo and Social -->
+            <div class="md:col-span-1 flex flex-col items-center md:items-start">
+                <img src="assets/logo.png" alt="FARMesilla" class="h-32">
+                <div class="flex space-x-4 ">
+                    <a href="#" class="text-secondary hover:text-accent transition duration-300">
+                        <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                            <path fill-rule="evenodd" d="M22 12c0-5.523-4.477-10-10-10S2 6.477 2 12c0 4.991 3.657 9.128 8.438 9.878v-6.987h-2.54V12h2.54V9.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.243 0-1.63.771-1.63 1.562V12h2.773l-.443 2.89h-2.33v6.988C18.343 21.128 22 16.991 22 12z" clip-rule="evenodd"></path>
+                        </svg>
+                    </a>
+                    <a href="#" class="text-secondary hover:text-accent transition duration-300">
+                        <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                            <path fill-rule="evenodd" d="M12.315 2c2.43 0 2.784.013 3.808.06 1.064.049 1.791.218 2.427.465a4.902 4.902 0 011.772 1.153 4.902 4.902 0 011.153 1.772c.247.636.416 1.363.465 2.427.048 1.067.06 1.407.06 4.123v.08c0 2.643-.012 2.987-.06 4.043-.049 1.064-.218 1.791-.465 2.427a4.902 4.902 0 01-1.153 1.772 4.902 4.902 0 01-1.772 1.153c-.636.247-1.363.416-2.427.465-1.067.048-1.407.06-4.123.06h-.08c-2.643 0-2.987-.012-4.043-.06-1.064-.049-1.791-.218-2.427-.465a4.902 4.902 0 01-1.772-1.153 4.902 4.902 0 01-1.153-1.772c-.247-.636-.416-1.363-.465-2.427-.047-1.024-.06-1.379-.06-3.808v-.63c0-2.43.013-2.784.06-3.808.049-1.064.218-1.791.465-2.427a4.902 4.902 0 011.153-1.772A4.902 4.902 0 015.45 2.525c.636-.247 1.363-.416 2.427-.465C8.901 2.013 9.256 2 11.685 2h.63zm-.081 1.802h-.468c-2.456 0-2.784.011-3.807.058-.975.045-1.504.207-1.857.344-.467.182-.8.398-1.15.748-.35.35-.566.683-.748 1.15-.137.353-.3.882-.344 1.857-.047 1.023-.058 1.351-.058 3.807v.468c0 2.456.011 2.784.058 3.807.045.975.207 1.504.344 1.857.182.466.399.8.748 1.15.35.35.683.566 1.15.748.353.137.882.3 1.857.344 1.054.048 1.37.058 4.041.058h.08c2.597 0 2.917-.01 3.96-.058.976-.045 1.505-.207 1.858-.344.466-.182.8-.398 1.15-.748.35-.35.566-.683.748-1.15.137-.353.3-.882.344-1.857.048-1.055.058-1.37.058-4.041v-.08c0-2.597-.01-2.917-.058-3.96-.045-.976-.207-1.505-.344-1.858a3.097 3.097 0 00-.748-1.15 3.098 3.098 0 00-1.15-.748c-.353-.137-.882-.3-1.857-.344-1.023-.047-1.351-.058-3.807-.058zM12 6.865a5.135 5.135 0 110 10.27 5.135 5.135 0 010-10.27zm0 1.802a3.333 3.333 0 100 6.666 3.333 3.333 0 000-6.666zm5.338-3.205a1.2 1.2 0 110 2.4 1.2 1.2 0 010-2.4z" clip-rule="evenodd"></path>
+                        </svg>
+                    </a>
+                </div>
+                <p class="text-xs text-center md:text-left">#FARMesilla</p>
+                <p class="text-xs text-center md:text-left">#eatgoodfeelgood</p>
+                <p class="text-xs text-center md:text-left">#eatgoodworkhappy</p>
+            </div>
 
+            <!-- Quick Links -->
+            <div class="text-center md:text-left">
+                <h3 class="font-title text-lg mb-4 tracking-wider border-b border-secondary/20 pb-2">QUICK LINKS</h3>
+                <ul class="space-y-2">
+                    <li><a href="#" class="hover:text-accent transition duration-300 text-sm">Home</a></li>
+                    <li><a href="#catering-menu" class="hover:text-accent transition duration-300 text-sm">Catering Menu</a></li>
+                    <li><a href="#" class="hover:text-accent transition duration-300 text-sm">Our Story</a></li>
+                    <li><a href="#" class="hover:text-accent transition duration-300 text-sm">Gallery</a></li>
+                    <li><a href="#" class="hover:text-accent transition duration-300 text-sm">Contact Us</a></li>
+                </ul>
+            </div>
+
+            <!-- Contact Info -->
+            <div class="text-center md:text-left">
+                <h3 class="font-title text-lg mb-4 tracking-wider border-b border-secondary/20 pb-2">CONTACT US</h3>
+                <address class="not-italic text-sm space-y-2">
+                    <p>1840 Avenida de Mesilla<br> Mesilla, NM 88005</p>
+                    <p>Phone: (575) 652-4626</p>
+                    <p>Email: farmstore@farmesilla.com</p>
+                </address>
+            </div>
+
+            <!-- Hours -->
+            <div class="text-center md:text-left">
+                <h3 class="font-title text-lg mb-4 tracking-wider border-b border-secondary/20 pb-2">HOURS</h3>
+                <ul class="text-sm space-y-2">
+                    <li>Mon-Tue: Closed</li>
+                    <li>Wednesday: 9am - 4pm</li>
+                    <li>Thu-Sat: 9am - 7pm</li>
+                    <li>Sunday: 9am - 4pm</li>
+                </ul>
+                <div class="mt-4">
+                    <a href="#catering-form" class="inline-block bg-primary text-secondary px-4 py-2 rounded-full hover:bg-accent transition duration-300 text-sm tracking-wider font-title">ORDER CATERING</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Copyright -->
+        <div class="border-t border-secondary/20 mt-12 pt-6 text-center">
+            <p class="text-xs">&copy; <span id="current-year"></span> FARMesilla. All rights reserved.</p>
+        </div>
+    </div>
+</footer>
+
+<script>
+    // Set current year in copyright
+    document.getElementById('current-year').textContent = new Date().getFullYear();
+</script>
 <script>
 document.addEventListener('DOMContentLoaded', function() {
     // Menu items with their prices
@@ -903,11 +1029,9 @@ document.addEventListener('DOMContentLoaded', function() {
         'STRAWBERRY HIBISCUS LEMONADE': 6,
         'VERDE FRESH SQUEEZED LEMONADE': 5
     };
-    
-    // Track selected items
+
     let selectedItems = [];
-    
-    // Initialize quantity inputs
+
     document.querySelectorAll('input[type="number"]').forEach(input => {
         input.addEventListener('change', function() {
             if(this.value < 0) this.value = 0;
@@ -915,8 +1039,7 @@ document.addEventListener('DOMContentLoaded', function() {
             updateOrderSummary();
         });
     });
-    
-    // Update selected items array
+
     function updateSelectedItems() {
         selectedItems = [];
         document.querySelectorAll('input[type="number"]').forEach((input, index) => {
@@ -933,117 +1056,155 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
     }
-    
-    // Format currency
+
     function formatCurrency(amount) {
         return '$' + amount.toFixed(2);
     }
-    
-    // Generate the formatted order message
+
     function generateOrderMessage(formData) {
         let message = "=== FARMESILLA CATERING ORDER ===\n\n";
-        
-        // Client Information
+
         message += "CLIENT INFORMATION:\n";
         message += `Name: ${formData.get('client_name')}\n`;
         message += `Email: ${formData.get('client_email')}\n`;
         message += `Phone: ${formData.get('client_phone')}\n\n`;
-        
-        // Order Details
+
         message += "ORDER DETAILS:\n";
         message += `Order Date: ${formData.get('order_date')}\n`;
         message += `Delivery/Pickup Date: ${formData.get('delivery_date')}\n`;
         message += `Time: ${formData.get('delivery_time')}\n`;
-        
+
         const deliveryAddress = formData.get('delivery_address');
         if (deliveryAddress) {
             message += `Delivery Address: ${deliveryAddress}\n`;
         } else {
             message += "Pickup: Yes\n";
         }
-        
-        // Order Items
+
         message += "\nORDER ITEMS:\n";
         selectedItems.forEach(item => {
             message += `- ${item.quantity} × ${item.name} (${formatCurrency(item.price)} each) = ${formatCurrency(item.total)}\n`;
         });
-        
-        // Order Summary
+
         const subtotal = selectedItems.reduce((sum, item) => sum + item.total, 0);
         const preparationFee = subtotal * 0.18;
         const total = subtotal + preparationFee;
-        
+
         message += "\nORDER SUMMARY:\n";
         message += `Subtotal: ${formatCurrency(subtotal)}\n`;
         message += `Preparation Fee (18%): ${formatCurrency(preparationFee)}\n`;
         message += `TOTAL: ${formatCurrency(total)}\n\n`;
-        
+
         message += "=== END OF ORDER ===";
-        
+
         return message;
     }
-    
-    // Update the order summary display
+
     function updateOrderSummary() {
         const orderItemsContainer = document.getElementById('order-items-display');
         const subtotalDisplay = document.getElementById('subtotal-display');
-        
-        // Clear and rebuild the items display
+
         orderItemsContainer.innerHTML = '';
-        
+
         if (selectedItems.length === 0) {
             orderItemsContainer.innerHTML = '<p class="text-center text-secondary/60 text-sm md:text-base">Your selected items will appear here</p>';
             subtotalDisplay.textContent = '$0.00';
             return;
         }
-        
+
         let subtotal = 0;
         const itemsList = document.createElement('div');
         itemsList.className = 'space-y-2';
-        
+
         selectedItems.forEach(item => {
             subtotal += item.total;
-            
+
             const itemElement = document.createElement('div');
             itemElement.className = 'flex justify-between items-center text-sm md:text-base';
-            
+
             const itemName = document.createElement('span');
             itemName.textContent = `${item.quantity} × ${item.name}`;
-            
+
             const itemTotal = document.createElement('span');
             itemTotal.textContent = `$${item.total.toFixed(2)}`;
             itemTotal.className = 'font-medium';
-            
+
             itemElement.appendChild(itemName);
             itemElement.appendChild(itemTotal);
             itemsList.appendChild(itemElement);
         });
-        
+
         orderItemsContainer.appendChild(itemsList);
-        
-        // Calculate and display subtotal
-        subtotalDisplay.textContent = `$${subtotal.toFixed(2)}`;
+
+        const preparationFee = subtotal * 0.18;
+        const totalWithTax = subtotal + preparationFee;
+
+        // Display updated price including 18% tax
+        subtotalDisplay.textContent = `$${totalWithTax.toFixed(2)}`;
     }
-    
-    // Handle form submission
+
     document.getElementById('catering-form').addEventListener('submit', function(e) {
-        // Get all form data
         const formData = new FormData(this);
-        
-        // Generate the formatted order message
         const orderMessage = generateOrderMessage(formData);
-        
-        // Add the formatted message to the form
         const messageInput = document.createElement('input');
         messageInput.type = 'hidden';
         messageInput.name = 'message';
         messageInput.value = orderMessage;
         this.appendChild(messageInput);
     });
-    
-    // Initialize the order summary
+
     updateOrderSummary();
 });
+</script>
+<script>
+// Function to check if any items are selected
+function checkSelectedItems() {
+    const quantityInputs = document.querySelectorAll('input[type="number"]');
+    let hasSelectedItems = false;
+    
+    quantityInputs.forEach(input => {
+        if (parseInt(input.value) > 0) {
+            hasSelectedItems = true;
+        }
+    });
+    
+    return hasSelectedItems;
+}
+
+// Function to handle the ORDER NOW button
+function handleOrderNowButton() {
+    // Remove existing button if it exists
+    const existingButton = document.getElementById('order-now-button');
+    if (existingButton) {
+        existingButton.remove();
+    }
+    
+    // If items are selected, add the button
+    if (checkSelectedItems()) {
+        const button = document.createElement('button');
+        button.id = 'order-now-button';
+        button.textContent = 'ORDER NOW';
+        button.className = 'fixed bottom-6 right-6 bg-secondary text-primary px-6 py-3 rounded-full hover:bg-accent transition duration-300 tracking-wider shadow-lg z-50';
+        
+        button.addEventListener('click', () => {
+            const orderForm = document.querySelector('.max-w-4xl.mx-auto.bg-primary');
+            if (orderForm) {
+                orderForm.scrollIntoView({ behavior: 'smooth' });
+            }
+        });
+        
+        document.body.appendChild(button);
+    }
+}
+
+// Set up event listeners for all quantity inputs
+document.querySelectorAll('input[type="number"]').forEach(input => {
+    input.addEventListener('change', handleOrderNowButton);
+    input.addEventListener('input', handleOrderNowButton);
+});
+
+// Initial check in case items are already selected
+document.addEventListener('DOMContentLoaded', handleOrderNowButton);
 </script>
 
 </body>
