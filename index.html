@@ -137,7 +137,7 @@
             </div>
         </div>
 
-        <!-- Tortas & Wraps -->
+ <!-- Tortas & Wraps -->
         <div class="max-w-4xl mx-auto mb-12 md:mb-16">
             <div class="flex items-center mb-3 md:mb-4">
                 <div class="flex-grow border-t border-secondary/20"></div>
@@ -150,15 +150,27 @@
                 <!-- Item 1 -->
                 <div class="flex items-start gap-4">
                     <div class="flex-grow">
-                        <div class="flex items-start">
-                            <input type="number" min="0" name="achiote_turkey_qty" class="w-12 md:w-16 mr-3 px-2 py-1 border border-secondary/20 bg-primary2 rounded text-center" placeholder="QTY">
-                            <div>
-                                <p class="font-medium"><span class="font-title">ACHIOTE-LIME TURKEY TORTA</span> ↣ 62</p>
-                                <p class="text-xs md:text-sm mt-1">TUCUMCARI WHITE CHEDDAR, SERRANO BACON, RED CABBAGE, RED CHILE MAYO, TOASTED TALERA</p>
-                                <div class="flex gap-2 mt-1">
-                                    <span class="dietary-tag bg-secondary/10 px-2 py-0.5 rounded">gf</span>
-                                    <span class="dietary-tag bg-secondary/10 px-2 py-0.5 rounded">n</span>
+                        <div class="flex items-start justify-between">
+                            <div class="flex items-start">
+                                <input type="number" min="0" name="achiote_turkey_qty" class="w-12 md:w-16 mr-3 px-2 py-1 border border-secondary/20 bg-primary2 rounded text-center" placeholder="QTY">
+                                <div>
+                                    <p class="font-medium"><span class="font-title">ACHIOTE-LIME TURKEY TORTA</span> ↣ 62</p>
+                                    <p class="text-xs md:text-sm mt-1">TUCUMCARI WHITE CHEDDAR, SERRANO BACON, RED CABBAGE, RED CHILE MAYO, TOASTED TALERA</p>
+                                    <!-- Protein Add-ons Dropdown -->
+                                    <div class="mt-2">
+                                        <select name="achiote_turkey_addons" class="text-xs p-1 border border-secondary/20 rounded bg-primary2">
+                                            <option value="">Add protein (+$0)</option>
+                                            <option value="extra_turkey">Extra Turkey (+$0)</option>
+                                            <option value="grilled_chicken">Grilled Chicken (+$0)</option>
+                                            <option value="avocado">Avocado (+$0)</option>
+                                            <option value="bacon">Extra Bacon (+$0)</option>
+                                        </select>
+                                    </div>
                                 </div>
+                            </div>
+                            <div class="flex gap-2">
+                                <span class="dietary-tag bg-secondary/10 px-2 py-0.5 rounded">gf</span>
+                                <span class="dietary-tag bg-secondary/10 px-2 py-0.5 rounded">n</span>
                             </div>
                         </div>
                     </div>
@@ -168,14 +180,26 @@
                 <!-- Item 2 -->
                 <div class="flex items-start gap-4">
                     <div class="flex-grow">
-                        <div class="flex items-start">
-                            <input type="number" min="0" name="ham_gouda_qty" class="w-12 md:w-16 mr-3 px-2 py-1 border border-secondary/20 bg-primary2 rounded text-center" placeholder="QTY">
-                            <div>
-                                <p class="font-medium"><span class="font-title">HAM & SMOKED GOUDA TORTA</span> ↣ 58</p>
-                                <p class="text-xs md:text-sm mt-1">SMOKED HAM & TUCUMCARI SMOKED GOUDA, BABY ARUGULA, HONEYCUP DIJON on TOASTED TALERA</p>
-                                <div class="flex gap-2 mt-1">
-                                    <span class="dietary-tag bg-secondary/10 px-2 py-0.5 rounded">gf</span>
+                        <div class="flex items-start justify-between">
+                            <div class="flex items-start">
+                                <input type="number" min="0" name="ham_gouda_qty" class="w-12 md:w-16 mr-3 px-2 py-1 border border-secondary/20 bg-primary2 rounded text-center" placeholder="QTY">
+                                <div>
+                                    <p class="font-medium"><span class="font-title">HAM & SMOKED GOUDA TORTA</span> ↣ 58</p>
+                                    <p class="text-xs md:text-sm mt-1">SMOKED HAM & TUCUMCARI SMOKED GOUDA, BABY ARUGULA, HONEYCUP DIJON on TOASTED TALERA</p>
+                                    <!-- Protein Add-ons Dropdown -->
+                                    <div class="mt-2">
+                                        <select name="ham_gouda_addons" class="text-xs p-1 border border-secondary/20 rounded bg-primary2">
+                                            <option value="">Add protein (+$0)</option>
+                                            <option value="extra_ham">Extra Ham (+$0)</option>
+                                            <option value="grilled_chicken">Grilled Chicken (+$0)</option>
+                                            <option value="turkey">Turkey (+$0)</option>
+                                            <option value="avocado">Avocado (+$0)</option>
+                                        </select>
+                                    </div>
                                 </div>
+                            </div>
+                            <div class="flex gap-2">
+                                <span class="dietary-tag bg-secondary/10 px-2 py-0.5 rounded">gf</span>
                             </div>
                         </div>
                     </div>
@@ -1206,6 +1230,99 @@ document.querySelectorAll('input[type="number"]').forEach(input => {
 // Initial check in case items are already selected
 document.addEventListener('DOMContentLoaded', handleOrderNowButton);
 </script>
-
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  const explanations = {
+    'gf': 'GLUTEN FREE',
+    'v': 'VEGAN',
+    'n': 'CONTAINS NUTS'
+  };
+  
+  // Create popup element
+  const popup = document.createElement('div');
+  popup.className = 'fixed inset-0 flex items-center justify-center bg-black/50 z-50 hidden';
+  popup.innerHTML = `
+    <div class="bg-primary2 border border-secondary/20 rounded-lg p-6 w-80 max-w-[90vw] mx-4 relative">
+      <!-- Close button -->
+      <button class="absolute top-3 right-3 text-secondary hover:text-accent text-2xl leading-none w-6 h-6 flex items-center justify-center focus:outline-none">
+        &times;
+      </button>
+      
+      <!-- Content container -->
+      <div class="text-center">
+        <!-- Logo with inversion filter -->
+        <div class="flex justify-center mb-4">
+          <img src="assets/logo.png" alt="Your Logo" class="h-16 w-auto invert">
+        </div>
+        
+        <!-- Title -->
+        <h4 class="font-medium text-lg mb-4">Dietary Information</h4>
+        
+        <!-- Content -->
+        <p class="text-sm"></p>
+      </div>
+    </div>
+  `;
+  document.body.appendChild(popup);
+  
+  // Add click handlers
+  document.querySelectorAll('.dietary-tag').forEach(tag => {
+    tag.style.cursor = 'pointer';
+    tag.addEventListener('click', function(e) {
+      const key = this.textContent.toLowerCase();
+      const content = explanations[key] || 'No information available';
+      
+      popup.querySelector('p').textContent = content;
+      popup.classList.remove('hidden');
+    });
+  });
+  
+  // Close handlers
+  const closeBtn = popup.querySelector('button');
+  closeBtn.addEventListener('click', () => popup.classList.add('hidden'));
+  
+  popup.addEventListener('click', (e) => {
+    if (e.target === popup) popup.classList.add('hidden');
+  });
+});
+</script>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  // Create welcome popup element (same style as dietary popup)
+  const welcomePopup = document.createElement('div');
+  welcomePopup.className = 'fixed inset-0 flex items-center justify-center bg-black/50 z-50';
+  welcomePopup.innerHTML = `
+    <div class="bg-primary2 border border-secondary/20 rounded-lg p-6 w-80 max-w-[90vw] mx-4 relative">
+      <!-- Close button -->
+      <button class="absolute top-3 right-3 text-secondary hover:text-accent text-2xl leading-none w-6 h-6 flex items-center justify-center focus:outline-none">
+        &times;
+      </button>
+      
+      <!-- Content container -->
+      <div class="text-center">
+        <!-- Logo with inversion filter -->
+        <div class="flex justify-center mb-4">
+          <img src="assets/logo.png" alt="Your Logo" class="h-16 w-auto invert">
+        </div>
+        
+        <!-- Title -->
+        <h4 class="font-medium text-lg mb-4">Welcome to FARM-2-GO</h4>
+        
+        <!-- Content -->
+        <p class="text-sm">Our FARM-2-GO menu is designed for group orders, with each platter serving 5 people by default. Choose from farm-fresh salads, protein bowls, wraps, and healthy snacks!</p>
+      </div>
+    </div>
+  `;
+  document.body.appendChild(welcomePopup);
+  
+  // Close handler
+  const closeBtn = welcomePopup.querySelector('button');
+  closeBtn.addEventListener('click', () => welcomePopup.remove());
+  
+  welcomePopup.addEventListener('click', (e) => {
+    if (e.target === welcomePopup) welcomePopup.remove();
+  });
+});
+</script>
 </body>
 </html>
