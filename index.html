@@ -24,7 +24,35 @@
     }
 </script>
 
+<link href="https://db.onlinewebfonts.com/c/a552118ceee33dff8a6acab5d1c10b60?family=Bernard+MT+Condensed+V1" rel="stylesheet">
+<link href="https://db.onlinewebfonts.com/c/0828325a5d135368bf470ed1f2e68d63?family=Abadi+MT+Std+Light" rel="stylesheet">
+
 <style>
+    /* Bernard MT Condensed */
+@font-face {
+  font-family: 'Bernard MT Condensed';
+  src: url('https://db.onlinewebfonts.com/t/a552118ceee33dff8a6acab5d1c10b60.eot');
+  src: url('https://db.onlinewebfonts.com/t/a552118ceee33dff8a6acab5d1c10b60.eot?#iefix') format('embedded-opentype'),
+       url('https://db.onlinewebfonts.com/t/a552118ceee33dff8a6acab5d1c10b60.woff2') format('woff2'),
+       url('https://db.onlinewebfonts.com/t/a552118ceee33dff8a6acab5d1c10b60.woff') format('woff'),
+       url('https://db.onlinewebfonts.com/t/a552118ceee33dff8a6acab5d1c10b60.ttf') format('truetype'),
+       url('https://db.onlinewebfonts.com/t/a552118ceee33dff8a6acab5d1c10b60.svg#Bernard MT Condensed V1') format('svg');
+  font-style: normal;
+  font-display: swap;
+}
+
+/* Abadi MT Light */
+@font-face {
+  font-family: 'Abadi MT Std Light';
+  src: url('https://db.onlinewebfonts.com/t/0828325c...63.eot');
+  src: url('https://db.onlinewebfonts.com/t/0828325c...63.eot?#iefix') format('embedded-opentype'),
+       url('https://db.onlinewebfonts.com/t/0828325c...63.woff2') format('woff2'),
+       url('https://db.onlinewebfonts.com/t/0828325c...63.woff') format('woff'),
+       url('https://db.onlinewebfonts.com/t/0828325c...63.ttf') format('truetype'),
+       url('https://db.onlinewebfonts.com/t/0828325c...63.svg#Abadi MT Std Light') format('svg');
+  font-style: normal;
+  font-display: swap;
+}
 body {
   background-color: #f5e7d0;
   background-image: url('https://www.transparenttextures.com/patterns/soft-wallpaper.png');
@@ -214,24 +242,14 @@ h1, h2, h3, h4, p1 {
             
             <!-- Auth Section -->
             <div id="auth-section" class="p-6">
-                <div class="grid md:grid-cols-2 gap-6">
-                    <!-- Login Form -->
+                <div class="max-w-md mx-auto">
+                    <!-- Login Form Only -->
                     <div class="bg-gray-50 p-6 rounded-lg">
-                        <h3 class="text-lg font-semibold mb-4 text-gray-900">Login</h3>
+                        <h3 class="text-lg font-semibold mb-4 text-gray-900">Chef Login</h3>
                         <form id="login-form">
                             <input type="email" id="login-email" placeholder="Email" class="w-full p-3 border border-gray-300 rounded-md mb-3 focus:ring-2 focus:ring-blue-500 focus:border-transparent" required>
                             <input type="password" id="login-password" placeholder="Password" class="w-full p-3 border border-gray-300 rounded-md mb-4 focus:ring-2 focus:ring-blue-500 focus:border-transparent" required>
                             <button type="submit" class="w-full bg-gray-900 text-white p-3 rounded-md hover:bg-gray-800 transition-colors">Login</button>
-                        </form>
-                    </div>
-                    
-                    <!-- Signup Form -->
-                    <div class="bg-gray-50 p-6 rounded-lg">
-                        <h3 class="text-lg font-semibold mb-4 text-gray-900">Sign Up</h3>
-                        <form id="signup-form">
-                            <input type="email" id="signup-email" placeholder="Email" class="w-full p-3 border border-gray-300 rounded-md mb-3 focus:ring-2 focus:ring-blue-500 focus:border-transparent" required>
-                            <input type="password" id="signup-password" placeholder="Password" class="w-full p-3 border border-gray-300 rounded-md mb-4 focus:ring-2 focus:ring-blue-500 focus:border-transparent" required>
-                            <button type="submit" class="w-full bg-gray-900 text-white p-3 rounded-md hover:bg-gray-800 transition-colors">Sign Up</button>
                         </form>
                     </div>
                 </div>
@@ -278,12 +296,12 @@ h1, h2, h3, h4, p1 {
                             <div class="space-y-4">
                                 <div>
                                     <label class="block text-sm font-medium text-gray-700 mb-2">Item Name *</label>
-                                    <input type="text" id="item-name" class="w-full p-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent" required>
+                                    <input type="text" id="item-name" class="w-full p-3 border border-gray-300 rounded-md mb-3 focus:ring-2 focus:ring-blue-500 focus:border-transparent" required>
                                 </div>
                                 
                                 <div>
                                     <label class="block text-sm font-medium text-gray-700 mb-2">Price (for 5 people) *</label>
-                                    <input type="number" id="item-price" step="0.01" class="w-full p-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent" required>
+                                    <input type="number" id="item-price" step="0.01" class="w-full p-3 border border-gray-300 rounded-md mb-4 focus:ring-2 focus:ring-blue-500 focus:border-transparent" required>
                                 </div>
                                 
                                 <div>
@@ -307,6 +325,9 @@ h1, h2, h3, h4, p1 {
                                 <div>
                                     <label class="block text-sm font-medium text-gray-700 mb-2">Image URL</label>
                                     <input type="url" id="item-image-url" class="w-full p-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                                    <a href="http://nicholasxdavis.github.io/cards-img/index.html" target="_blank" class="inline-block mt-2 text-sm text-blue-600 hover:text-blue-800 underline">
+                                        Upload IMGs into URLs here
+                                    </a>
                                 </div>
                                 
                                 <div class="flex items-center">
@@ -404,11 +425,12 @@ h1, h2, h3, h4, p1 {
 <div class="max-w-xs mx-auto mb-10 text-center">
     <p class="mb-3 font-medium">SELECT PORTION SIZE</p>
     <div class="relative flex items-center justify-center">
-        <button type="button" class="portion-btn" onclick="adjustPortion(-1)">
+         <button type="button" class="portion-btn" onclick="adjustPortion(-1)">
             <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
                 <path fill-rule="evenodd" d="M5 10a1 1 0 011-1h8a1 1 0 110 2H6a1 1 0 01-1-1z" clip-rule="evenodd" />
             </svg>
         </button>
+        
         <div class="mx-4 px-6 py-2 border-b-2 border-accent text-center min-w-[120px]">
             <span id="portion-size" class="text-2xl font-display">10</span>
             <span class="ml-1 text-sm">people</span>
@@ -514,7 +536,77 @@ h1, h2, h3, h4, p1 {
     </div>
     </form>
 </section>
+<footer class="bg-secondary text-primary py-12 md:py-16">
+    <div class="container mx-auto px-4 sm:px-6">
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-8 md:gap-12">
+            <!-- Logo and Social -->
+            <div class="md:col-span-1 flex flex-col items-center md:items-start">
+                <img src="assets/logo.png" alt="FARMesilla" class="h-32">
+                <div class="flex space-x-4 ">
+                    <a href="#" class="text-secondary hover:text-accent transition duration-300">
+                        <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                            <path fill-rule="evenodd" d="M22 12c0-5.523-4.477-10-10-10S2 6.477 2 12c0 4.991 3.657 9.128 8.438 9.878v-6.987h-2.54V12h2.54V9.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.243 0-1.63.771-1.63 1.562V12h2.773l-.443 2.89h-2.33v6.988C18.343 21.128 22 16.991 22 12z" clip-rule="evenodd"></path>
+                        </svg>
+                    </a>
+                    <a href="#" class="text-secondary hover:text-accent transition duration-300">
+                        <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                            <path fill-rule="evenodd" d="M12.315 2c2.43 0 2.784.013 3.808.06 1.064.049 1.791.218 2.427.465a4.902 4.902 0 011.772 1.153 4.902 4.902 0 011.153 1.772c.247.636.416 1.363.465 2.427.048 1.067.06 1.407.06 4.123v.08c0 2.643-.012 2.987-.06 4.043-.049 1.064-.218 1.791-.465 2.427a4.902 4.902 0 01-1.153 1.772 4.902 4.902 0 01-1.772 1.153c-.636.247-1.363.416-2.427.465-1.067.048-1.407.06-4.123.06h-.08c-2.643 0-2.987-.012-4.043-.06-1.064-.049-1.791-.218-2.427-.465a4.902 4.902 0 01-1.772-1.153 4.902 4.902 0 01-1.153-1.772c-.247-.636-.416-1.363-.465-2.427-.047-1.024-.06-1.379-.06-3.808v-.63c0-2.43.013-2.784.06-3.808.049-1.064.218-1.791.465-2.427a4.902 4.902 0 011.153-1.772A4.902 4.902 0 015.45 2.525c.636-.247 1.363-.416 2.427-.465C8.901 2.013 9.256 2 11.685 2h.63zm-.081 1.802h-.468c-2.456 0-2.784.011-3.807.058-.975.045-1.504.207-1.857.344-.467.182-.8.398-1.15.748-.35.35-.566.683-.748 1.15-.137.353-.3.882-.344 1.857-.047 1.023-.058 1.351-.058 3.807v.468c0 2.456.011 2.784.058 3.807.045.975.207 1.504.344 1.857.182.466.399.8.748 1.15.35.35.683.566 1.15.748.353.137.882.3 1.857.344 1.054.048 1.37.058 4.041.058h.08c2.597 0 2.917-.01 3.96-.058.976-.045 1.505-.207 1.858-.344.466-.182.8-.398 1.15-.748.35-.35.566-.683.748-1.15.137-.353.3-.882.344-1.857.048-1.055.058-1.37.058-4.041v-.08c0-2.597-.01-2.917-.058-3.96-.045-.976-.207-1.505-.344-1.858a3.097 3.097 0 00-.748-1.15 3.098 3.098 0 00-1.15-.748c-.353-.137-.882-.3-1.857-.344-1.023-.047-1.351-.058-3.807-.058zM12 6.865a5.135 5.135 0 110 10.27 5.135 5.135 0 010-10.27zm0 1.802a3.333 3.333 0 100 6.666 3.333 3.333 0 000-6.666zm5.338-3.205a1.2 1.2 0 110 2.4 1.2 1.2 0 010-2.4z" clip-rule="evenodd"></path>
+                        </svg>
+                    </a>
+                </div>
+                <p class="text-xs text-center md:text-left">#FARMesilla</p>
+                <p class="text-xs text-center md:text-left">#eatgoodfeelgood</p>
+                <p class="text-xs text-center md:text-left">#eatgoodworkhappy</p>
+            </div>
 
+            <!-- Quick Links -->
+            <div class="text-center md:text-left">
+                <h3 class="font-title text-lg mb-4 tracking-wider border-b border-secondary/20 pb-2">QUICK LINKS</h3>
+                <ul class="space-y-2">
+                    <li><a href="#" class="hover:text-accent transition duration-300 text-sm">Home</a></li>
+                    <li><a href="#catering-menu" class="hover:text-accent transition duration-300 text-sm">Catering Menu</a></li>
+                    <li><a href="#" class="hover:text-accent transition duration-300 text-sm">Our Story</a></li>
+                    <li><a href="#" class="hover:text-accent transition duration-300 text-sm">Gallery</a></li>
+                    <li><a href="#" class="hover:text-accent transition duration-300 text-sm">Contact Us</a></li>
+                </ul>
+            </div>
+
+            <!-- Contact Info -->
+            <div class="text-center md:text-left">
+                <h3 class="font-title text-lg mb-4 tracking-wider border-b border-secondary/20 pb-2">CONTACT US</h3>
+                <address class="not-italic text-sm space-y-2">
+                    <p>1840 Avenida de Mesilla<br> Mesilla, NM 88005</p>
+                    <p>Phone: (575) 652-4626</p>
+                    <p>Email: farmstore@farmesilla.com</p>
+                </address>
+            </div>
+
+            <!-- Hours -->
+            <div class="text-center md:text-left">
+                <h3 class="font-title text-lg mb-4 tracking-wider border-b border-secondary/20 pb-2">HOURS</h3>
+                <ul class="text-sm space-y-2">
+                    <li>Mon-Tue: Closed</li>
+                    <li>Wednesday: 9am - 4pm</li>
+                    <li>Thu-Sat: 9am - 7pm</li>
+                    <li>Sunday: 9am - 4pm</li>
+                </ul>
+                <div class="mt-4">
+                    <a href="#catering-form" class="inline-block bg-primary text-secondary px-4 py-2 rounded-full hover:bg-accent transition duration-300 text-sm tracking-wider font-title">ORDER CATERING</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Copyright -->
+        <div class="border-t border-secondary/20 mt-12 pt-6 text-center">
+            <p class="text-xs">&copy; <span id="current-year"></span> FARMesilla. All rights reserved.</p>
+        </div>
+    </div>
+</footer>
+
+<script>
+    // Set current year in copyright
+    document.getElementById('current-year').textContent = new Date().getFullYear();
+</script>
 <!-- Include Supabase -->
 <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
 
@@ -664,7 +756,14 @@ function getCategoryDisplayName(category) {
         'beverages': 'BEVERAGES',
         'other': 'OTHER ITEMS'
     };
-    return categoryNames[category] || category.toUpperCase();
+    
+    // If it's a predefined category, use the mapping
+    if (categoryNames[category]) {
+        return categoryNames[category];
+    }
+    
+    // For custom categories, convert underscores back to spaces and uppercase
+    return category.replace(/_/g, ' ').toUpperCase();
 }
 
 function createMenuItemHTML(item) {
@@ -921,7 +1020,6 @@ function setupEventListeners() {
 
     // Auth forms
     document.getElementById('login-form').addEventListener('submit', handleLogin);
-    document.getElementById('signup-form').addEventListener('submit', handleSignup);
     document.getElementById('logout-btn').addEventListener('click', handleLogout);
 }
 
@@ -937,26 +1035,6 @@ async function handleLogin(e) {
         alert('Login successful!');
     } catch (error) {
         alert('Login failed: ' + error.message);
-    }
-}
-
-async function handleSignup(e) {
-    e.preventDefault();
-    const email = document.getElementById('signup-email').value;
-    const password = document.getElementById('signup-password').value;
-
-    try {
-        const { error } = await supabase.auth.signUp({
-            email,
-            password,
-            options: {
-                emailRedirectTo: window.location.origin
-            }
-        });
-        if (error) throw error;
-        alert('Signup successful! Please check your email for verification.');
-    } catch (error) {
-        alert('Signup failed: ' + error.message);
     }
 }
 
@@ -982,11 +1060,11 @@ async function handleSaveItem(e) {
     const description = document.getElementById('item-description').value;
     const isAvailable = document.getElementById('item-available').checked;
     
-    // Handle custom category
+    // Handle custom category - preserve original formatting
     if (category === 'custom' && customCategory) {
-        category = customCategory.toLowerCase().replace(/\s+/g, '_');
+        category = customCategory; // Keep original formatting
         
-        // Add to available categories for future use
+        // Add to available categories for future use (using original format)
         if (!availableCategories.includes(category)) {
             availableCategories.push(category);
         }
