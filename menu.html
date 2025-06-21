@@ -314,8 +314,10 @@ document.addEventListener('DOMContentLoaded', function() {
         <!-- Slimmed-down Menu Preview Area -->
         <div id="menu-preview" class="max-w-2xl mx-auto">
             <div class="border-2 border-primary/20 bg-secondary p-1 rounded-lg overflow-hidden">
-                <canvas id="pdf-canvas" class="w-full"></canvas>
-                <div id="pdf-loading" class="hidden text-center py-20 text-primary">
+                <div id="menu-image-container" class="w-full">
+                    <img id="menu-image" src="https://raw.githubusercontent.com/nicholasxdavis/cards-img/main/menus/food-menu.png" alt="Menu" class="w-full h-auto">
+                </div>
+                <div id="image-loading" class="hidden text-center py-20 text-primary">
                     Loading menu...
                 </div>
             </div>
@@ -367,21 +369,14 @@ document.addEventListener('DOMContentLoaded', function() {
         </div>
     </section>
 
-
-<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.12.313/pdf.min.js"></script>
 <script>
-// Initialize PDF.js
-pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.12.313/pdf.worker.min.js';
-
-let currentPdf = null;
-let currentPdfUrl = '';
-let currentMenuType = 'food'; // Default to food menu
-
-const pdfPaths = {
-    'food': 'https://nicholasxdavis.github.io/catering/assets/menu.pdf',
-    'drinks': 'https://nicholasxdavis.github.io/catering/assets/menu.pdf',
-    'specials': 'https://nicholasxdavis.github.io/catering/assets/menu.pdf'
+const menuImages = {
+    'food': 'https://raw.githubusercontent.com/nicholasxdavis/cards-img/main/menus/food-menu.jpg',
+    'drinks': 'https://raw.githubusercontent.com/nicholasxdavis/cards-img/main/menus/drink-menu.jpg',
+    'specials': 'https://raw.githubusercontent.com/nicholasxdavis/cards-img/main/menus/specials-menu.jpg'
 };
+
+let currentMenuType = 'food'; // Default to food menu
 
 // Function to update the menu indicator position
 function updateMenuIndicator(menuType) {
@@ -428,51 +423,36 @@ function updateMenuIndicator(menuType) {
     }
 }
 
-async function openMenuPreview(menuType) {
-    const previewDiv = document.getElementById('menu-preview');
-    const loadingIndicator = document.getElementById('pdf-loading');
-    const canvas = document.getElementById('pdf-canvas');
+function openMenuPreview(menuType) {
+    const menuImage = document.getElementById('menu-image');
+    const loadingIndicator = document.getElementById('image-loading');
     
-    currentPdfUrl = pdfPaths[menuType];
     currentMenuType = menuType;
     
     // Update the indicator position
     updateMenuIndicator(menuType);
     
     loadingIndicator.classList.remove('hidden');
-    canvas.classList.add('hidden');
-    previewDiv.classList.remove('hidden');
+    menuImage.classList.add('hidden');
     
-    try {
-        const loadingTask = pdfjsLib.getDocument(currentPdfUrl);
-        currentPdf = await loadingTask.promise;
-        
-        const page = await currentPdf.getPage(1);
-        const viewport = page.getViewport({ scale: 1.0 });
-        
-        // Match canvas size exactly to PDF content
-        canvas.height = viewport.height;
-        canvas.width = viewport.width;
-        
-        await page.render({
-            canvasContext: canvas.getContext('2d'),
-            viewport: viewport
-        }).promise;
-        
-        canvas.classList.remove('hidden');
+    // Create new image to preload
+    const img = new Image();
+    img.onload = function() {
+        menuImage.src = this.src;
+        menuImage.classList.remove('hidden');
         loadingIndicator.classList.add('hidden');
-        
-    } catch (err) {
-        console.error('PDF loading error:', err);
+    };
+    img.onerror = function() {
         loadingIndicator.textContent = 'Error loading menu. Please try again.';
-    }
+    };
+    img.src = menuImages[menuType];
 }
 
 function downloadMenu() {
-    if (currentPdfUrl) {
+    if (menuImages[currentMenuType]) {
         const link = document.createElement('a');
-        link.href = currentPdfUrl;
-        link.download = `${currentMenuType}_menu.pdf`;
+        link.href = menuImages[currentMenuType];
+        link.download = `${currentMenuType}_menu.png`;
         document.body.appendChild(link);
         link.click();
         document.body.removeChild(link);
@@ -491,10 +471,10 @@ document.addEventListener('DOMContentLoaded', function() {
 </script>
 
 <style>
-#pdf-canvas {
+#menu-image {
     display: block;
     margin: 0 auto;
-    background: white; /* PDF background */
+    background: white;
 }
 
 #menu-indicator {
