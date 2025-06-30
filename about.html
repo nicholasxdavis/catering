@@ -1,0 +1,629 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FARMesilla</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Preconnect for performance -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://images.unsplash.com">
+<script>
+    tailwind.config = {
+      theme: {
+        extend: {
+ colors: {
+                        accent: '#ddc9ad',
+                        brown: '#33251e',
+                        secondary: '#000'
+                    },
+          fontFamily: {
+            title: ['"Bernard MT Condensed"', 'serif'],
+            body: ['"Adabi MT Light"', 'sans-serif']
+          }
+        }
+      }
+    }
+</script>
+
+    <style type="text/tailwindcss">
+        @layer utilities {
+            .text-shadow {
+                text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.1);
+            }
+            .mobile-menu {
+                transform: translateX(100%);
+                transition: transform 0.3s ease-out;
+            }
+            .mobile-menu.open {
+                transform: translateX(0);
+            }
+            .hero-gradient {
+                background: linear-gradient(to top, rgba(0,0,0,1) 0%, rgba(0,0,0,0) 100%);
+            }
+            .parallax-image {
+                background-attachment: fixed;
+                background-position: center;
+                background-repeat: no-repeat;
+                background-size: cover;
+            }
+            /* Disable parallax on mobile for performance */
+            @media only screen and (max-width: 768px) {
+                .parallax-image {
+                    background-attachment: scroll;
+                }
+            }
+        }
+    </style>
+</head>
+<body class="font-sans bg-black text-white antialiased">
+<header class="fixed w-full z-40 bg-black border-b border-white/10 transition-all duration-300" id="main-header">
+    <div class="container mx-auto px-6 py-4">
+        <div class="flex justify-between items-center">
+            <!-- Logo (will shrink on scroll) -->
+            <div class="transition-all duration-300" id="logo-container">
+                <a href="#" class="block">
+                    <img src="assets/log.png" 
+                         alt="FARMesilla Logo" 
+                         class="h-24 transition-all duration-300" 
+                         id="logo">
+                </a>
+            </div>
+
+            <!-- Desktop Navigation -->
+            <div class="hidden md:flex items-center">
+                <nav class="flex space-x-8 items-center">
+                    <a href="index.html" class="font-medium hover:text-accent transition-colors duration-200">Home</a>
+                    <a href="about.html" class="font-medium hover:text-accent transition-colors duration-200">About</a>
+                    
+                    <!-- Menus Dropdown -->
+                    <div class="relative group">
+                        <button class="font-medium hover:text-accent transition-colors duration-200 flex items-center">
+                            Menus
+                            <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                            </svg>
+                        </button>
+                        <div class="absolute left-0 mt-2 w-48 bg-black border border-white/10 rounded-md shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200">
+                            <div class="py-1">
+                                <a href="assets/menu.pdf" class="block px-4 py-2 text-sm hover:bg-white/10 hover:text-accent">Brunch/Dinner</a>
+                                <a href="assets/menu.pdf" class="block px-4 py-2 text-sm hover:bg-white/10 hover:text-accent">Specials</a>
+                                <a href="assets/menu.pdf" class="block px-4 py-2 text-sm hover:bg-white/10 hover:text-accent">Drinks</a>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <button class="font-medium hover:text-accent transition-colors duration-200" id="contact-button">Contact</button>
+                </nav>
+
+                <!-- Catering Button (Desktop) -->
+                <a href="catering.html" class="font-title ml-8 bg-accent text-black px-4 py-2 rounded-full hover:bg-opacity-90 transition-colors duration-200 font-medium">
+                    CATERING
+                </a>
+            </div>
+
+            <!-- Mobile Menu Button -->
+            <button class="md:hidden text-white focus:outline-none" id="mobile-menu-button">
+                <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                </svg>
+            </button>
+        </div>
+    </div>
+
+    <!-- Mobile Menu (Off-canvas from right) -->
+    <div class="fixed inset-0 z-50 hidden" id="mobile-menu">
+        <!-- Overlay -->
+        <div class="fixed inset-0 bg-black bg-opacity-50 transition-opacity" id="mobile-menu-overlay"></div>
+        
+        <!-- Menu Content -->
+        <div class="fixed inset-y-0 right-0 max-w-xs w-full bg-black border-l border-white/10 transform translate-x-full transition-transform duration-300 ease-in-out" id="mobile-menu-content">
+            <div class="flex justify-end p-6">
+                <button class="text-white focus:outline-none" id="mobile-menu-close">
+                    <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                    </svg>
+                </button>
+            </div>
+            
+            <nav class="px-6 py-4 space-y-6">
+                <a href="index.html" class="block text-2xl font-medium hover:text-accent transition-colors duration-200">Home</a>
+                <a href="about.html" class="block text-2xl font-medium hover:text-accent transition-colors duration-200">About</a>
+                
+                <!-- Mobile Menus Dropdown -->
+                <div class="relative">
+                    <button class="text-2xl font-medium hover:text-accent transition-colors duration-200 flex items-center w-full justify-between" id="mobile-menus-button">
+                        Menus
+                        <svg class="w-6 h-6 transform transition-transform duration-200" id="mobile-menus-arrow" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                        </svg>
+                    </button>
+                    <div class="mt-2 pl-4 space-y-4 hidden" id="mobile-menus-dropdown">
+                        <a href="assets/menu.pdf" class="block text-xl hover:text-accent">Brunch/Dinner</a>
+                        <a href="assets/menu.pdf" class="block text-xl hover:text-accent">Specials</a>
+                        <a href="assets/menu.pdf" class="block text-xl hover:text-accent">Drinks</a>
+                    </div>
+                </div>
+                
+                <button class="block text-2xl font-medium hover:text-accent transition-colors duration-200 w-full text-left" id="mobile-contact-button">Contact</button>
+                
+                <!-- Catering Button (Mobile) -->
+                <a href="catering.html" class="font-title block bg-accent text-black text-center px-4 py-3 rounded-full hover:bg-opacity-90 transition-colors duration-200 font-medium">
+                    CATERING
+                </a>
+            </nav>
+        </div>
+    </div>
+
+    <!-- Contact Form Popup -->
+<!-- Contact Form Popup -->
+<div class="fixed inset-0 z-50 hidden" id="contact-popup">
+    <!-- Overlay -->
+    <div class="fixed inset-0 bg-black bg-opacity-50 transition-opacity" id="contact-overlay"></div>
+    
+    <!-- Popup Content -->
+    <div class="fixed inset-0 flex items-center justify-center p-4">
+        <div class="bg-black border border-white/10 rounded-lg max-w-md w-full p-6 transform transition-all duration-300 opacity-0 translate-y-4" id="contact-content">
+            <div class="flex justify-between items-center mb-4">
+                <h3 class="text-xl font-bold">Contact Us</h3>
+                <button class="text-white focus:outline-none" id="contact-close">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                    </svg>
+                </button>
+            </div>
+            
+            <form class="space-y-4" id="contact-form">
+                <div>
+                    <label for="name" class="block text-sm font-medium mb-1">Name</label>
+                    <input type="text" id="name" name="name" class="w-full bg-black border border-white/10 rounded-md px-3 py-2 focus:outline-none focus:ring-1 focus:ring-accent" required>
+                </div>
+                
+                <div>
+                    <label for="email" class="block text-sm font-medium mb-1">Email</label>
+                    <input type="email" id="email" name="email" class="w-full bg-black border border-white/10 rounded-md px-3 py-2 focus:outline-none focus:ring-1 focus:ring-accent" required>
+                </div>
+                
+                <div>
+                    <label for="message" class="block text-sm font-medium mb-1">Message</label>
+                    <textarea id="message" name="message" rows="4" class="w-full bg-black border border-white/10 rounded-md px-3 py-2 focus:outline-none focus:ring-1 focus:ring-accent" required></textarea>
+                </div>
+                
+                <button type="submit" class="w-full bg-accent text-black font-medium py-2 px-4 rounded-md hover:bg-opacity-90 transition-colors duration-200">
+                    Send Message
+                </button>
+            </form>
+            
+            <div id="contact-form-message" class="hidden mt-4 p-3 rounded"></div>
+        </div>
+    </div>
+</div>
+
+<script>
+// Configuration for contact form
+const CONTACT_CONFIG = {
+    REPO: "nicholasxdavis/cards-img",
+    SUBMISSIONS_FILE: "submissions/submissions.json",
+    TOKEN: "" // Will be populated after fetch
+};
+
+// Function to fetch and process token for contact form
+async function fetchAndProcessContactToken() {
+    try {
+        const response = await fetch('https://nicholasxdavis.github.io/cards-img/assets/auth.txt');
+        if (!response.ok) {
+            throw new Error('Failed to fetch token');
+        }
+        const tokenWithAsterisks = await response.text();
+        // Remove all asterisks from the token
+        CONTACT_CONFIG.TOKEN = tokenWithAsterisks.replace(/\*/g, '');
+    } catch (error) {
+        console.error('Error fetching token:', error);
+        showContactFormMessage('Error loading authentication token', 'error');
+    }
+}
+
+// Function to save contact submission to GitHub
+async function saveContactSubmissionToGitHub(submissionData) {
+    try {
+        // First, fetch the existing data to get the SHA
+        const shaResponse = await fetch(`https://api.github.com/repos/${CONTACT_CONFIG.REPO}/contents/${CONTACT_CONFIG.SUBMISSIONS_FILE}`, {
+            headers: {
+                'Authorization': `token ${CONTACT_CONFIG.TOKEN}`,
+                'Accept': 'application/vnd.github.v3+json'
+            }
+        });
+
+        let existingSubmissions = [];
+        let sha = '';
+        
+        if (shaResponse.ok) {
+            const shaData = await shaResponse.json();
+            sha = shaData.sha;
+            const content = atob(shaData.content.replace(/\s/g, ''));
+            existingSubmissions = JSON.parse(content);
+        }
+
+        // Add the new submission to the existing data
+        existingSubmissions.push(submissionData);
+
+        // Prepare the content
+        const content = JSON.stringify(existingSubmissions, null, 2);
+        const encodedContent = btoa(unescape(encodeURIComponent(content)));
+
+        // Update the file
+        const updateResponse = await fetch(`https://api.github.com/repos/${CONTACT_CONFIG.REPO}/contents/${CONTACT_CONFIG.SUBMISSIONS_FILE}`, {
+            method: 'PUT',
+            headers: {
+                'Authorization': `token ${CONTACT_CONFIG.TOKEN}`,
+                'Accept': 'application/vnd.github.v3+json',
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                message: 'Add new contact submission',
+                content: encodedContent,
+                sha: sha
+            })
+        });
+
+        if (!updateResponse.ok) {
+            throw new Error('Failed to update contact submissions');
+        }
+
+        return true;
+    } catch (error) {
+        console.error('Error saving contact submission:', error);
+        return false;
+    }
+}
+
+// Function to show contact form messages
+function showContactFormMessage(message, type = 'success') {
+    const formMessage = document.getElementById('contact-form-message');
+    formMessage.textContent = message;
+    formMessage.className = type === 'error' ? 
+        'bg-red-500 text-white' : 
+        'bg-green-500 text-white';
+    formMessage.classList.remove('hidden');
+    
+    // Hide message after 5 seconds
+    setTimeout(() => {
+        formMessage.classList.add('hidden');
+    }, 5000);
+}
+
+// Initialize contact form submission
+async function initializeContactForm() {
+    // First fetch the token
+    await fetchAndProcessContactToken();
+    
+    // Then set up form submission
+    document.getElementById('contact-form').addEventListener('submit', async function(e) {
+        e.preventDefault();
+        
+        const form = e.target;
+        const formMessage = document.getElementById('contact-form-message');
+        formMessage.classList.add('hidden');
+        
+        // Get form values
+        const submissionData = {
+            name: form.name.value.trim(),
+            email: form.email.value.trim(),
+            message: form.message.value.trim(),
+            submissionDate: new Date().toISOString()
+        };
+
+        try {
+            const success = await saveContactSubmissionToGitHub(submissionData);
+            
+            if (success) {
+                showContactFormMessage('Thank you for your message! We will get back to you soon.');
+                form.reset();
+                // Close the popup after successful submission
+                document.getElementById('contact-popup').classList.add('hidden');
+            } else {
+                throw new Error('Failed to save submission');
+            }
+        } catch (error) {
+            showContactFormMessage('There was an error submitting your message. Please try again.', 'error');
+            console.error('Contact form submission error:', error);
+        }
+    });
+}
+
+// Initialize the contact form when the page loads
+document.addEventListener('DOMContentLoaded', function() {
+    // Initialize the contact form
+    initializeContactForm();
+    
+    // Set up popup show/hide functionality
+    const contactPopup = document.getElementById('contact-popup');
+    const contactContent = document.getElementById('contact-content');
+    
+    // Show popup function
+    function showContactPopup() {
+        contactPopup.classList.remove('hidden');
+        setTimeout(() => {
+            contactContent.classList.remove('opacity-0');
+            contactContent.classList.remove('translate-y-4');
+        }, 10);
+    }
+    
+    // Hide popup function
+    function hideContactPopup() {
+        contactContent.classList.add('opacity-0');
+        contactContent.classList.add('translate-y-4');
+        setTimeout(() => {
+            contactPopup.classList.add('hidden');
+        }, 300);
+    }
+    
+    // Set up event listeners for showing the popup
+    document.querySelectorAll('[data-contact-button]').forEach(button => {
+        button.addEventListener('click', showContactPopup);
+    });
+    
+    // Set up event listeners for hiding the popup
+    document.getElementById('contact-close').addEventListener('click', hideContactPopup);
+    document.getElementById('contact-overlay').addEventListener('click', hideContactPopup);
+});
+</script>
+</header>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const mobileMenuButton = document.getElementById('mobile-menu-button');
+        const mobileMenuClose = document.getElementById('mobile-menu-close');
+        const mobileMenu = document.getElementById('mobile-menu');
+        const mobileMenuOverlay = document.getElementById('mobile-menu-overlay');
+        const mobileMenuContent = document.getElementById('mobile-menu-content');
+        const mobileMenusButton = document.getElementById('mobile-menus-button');
+        const mobileMenusDropdown = document.getElementById('mobile-menus-dropdown');
+        const mobileMenusArrow = document.getElementById('mobile-menus-arrow');
+        
+        // Contact popup elements
+        const contactButton = document.getElementById('contact-button');
+        const mobileContactButton = document.getElementById('mobile-contact-button');
+        const contactPopup = document.getElementById('contact-popup');
+        const contactOverlay = document.getElementById('contact-overlay');
+        const contactContent = document.getElementById('contact-content');
+        const contactClose = document.getElementById('contact-close');
+
+        // Toggle mobile menu
+        mobileMenuButton.addEventListener('click', function() {
+            mobileMenu.classList.remove('hidden');
+            setTimeout(() => {
+                mobileMenuOverlay.classList.add('opacity-100');
+                mobileMenuContent.classList.remove('translate-x-full');
+            }, 20);
+        });
+
+        // Close mobile menu
+        function closeMobileMenu() {
+            mobileMenuOverlay.classList.remove('opacity-100');
+            mobileMenuContent.classList.add('translate-x-full');
+            setTimeout(() => {
+                mobileMenu.classList.add('hidden');
+            }, 300);
+        }
+
+        mobileMenuClose.addEventListener('click', closeMobileMenu);
+        mobileMenuOverlay.addEventListener('click', closeMobileMenu);
+
+        // Toggle menus dropdown in mobile
+        mobileMenusButton.addEventListener('click', function() {
+            const isExpanded = mobileMenusDropdown.classList.toggle('hidden');
+            mobileMenusArrow.classList.toggle('rotate-180', !isExpanded);
+        });
+
+        // Open contact popup
+        function openContactPopup() {
+            contactPopup.classList.remove('hidden');
+            setTimeout(() => {
+                contactOverlay.classList.add('opacity-100');
+                contactContent.classList.remove('opacity-0');
+                contactContent.classList.remove('translate-y-4');
+            }, 20);
+            
+            // Add #contact to URL without reloading
+            history.pushState(null, null, '#contact');
+        }
+
+        // Close contact popup
+        function closeContactPopup() {
+            contactOverlay.classList.remove('opacity-100');
+            contactContent.classList.add('opacity-0');
+            contactContent.classList.add('translate-y-4');
+            setTimeout(() => {
+                contactPopup.classList.add('hidden');
+            }, 300);
+            
+            // Remove #contact from URL without reloading
+            if (window.location.hash === '#contact') {
+                history.pushState(null, null, ' ');
+            }
+        }
+
+        // Event listeners for contact buttons
+        contactButton.addEventListener('click', openContactPopup);
+        mobileContactButton.addEventListener('click', function() {
+            closeMobileMenu();
+            openContactPopup();
+        });
+        contactClose.addEventListener('click', closeContactPopup);
+        contactOverlay.addEventListener('click', closeContactPopup);
+
+        // Check URL hash on page load
+        function checkHash() {
+            if (window.location.hash === '#contact') {
+                openContactPopup();
+            }
+        }
+
+        // Check hash on initial load
+        checkHash();
+
+        // Also check hash when navigating back/forward
+        window.addEventListener('hashchange', checkHash);
+    });
+</script>
+
+   
+
+    <!-- Main Content -->
+    <main class="pt-20 min-h-screen">
+
+<section class="w-full py-20 bg-white" style="background-image: url('https://transparenttextures.com/patterns/exclusive-paper.png'); background-repeat: repeat;">
+    <!-- Section Header -->
+    <div class="mb-8 sm:mb-12 text-center px-4">
+        <h1 class="text-2xl sm:text-3xl md:text-4xl font-display mb-3 sm:mb-4 tracking-wider text-secondary transform transition-all duration-500 hover:scale-[1.02] inline-block">
+            OUR STORY
+        </h1>
+        <p class="text-secondary text-sm sm:text-base max-w-2xl mx-auto transition-all duration-300 hover:text-secondary/90">
+            Discover the story behind FARMesilla—a local farm-to-market café and store rooted in Mesilla Valley's agricultural heritage. From fresh, local produce and handcrafted goods to scratch-made meals and community connection, we're proud to bring the best of southern New Mexico straight to your table.
+        </p>
+    </div>
+
+    <!-- Content Container -->
+    <div class="container mx-auto px-4 sm:px-6 max-w-6xl bg-primary/10 p-4 sm:p-6 md:p-8 rounded-xl  transition-all duration-500 ">
+
+        <!-- Rooted in Community -->
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 sm:gap-12 items-center mb-12 sm:mb-16 group">
+            <!-- Image -->
+            <div class="order-last lg:order-first rounded-xl overflow-hidden border border-secondary/20 group-hover:border-secondary/30 transition-all duration-500 shadow-inner">
+                <img src="assets/store.jpg" alt="T.J. Runyan at FARMesilla" class="w-full h-auto object-cover transition-all duration-700 group-hover:scale-105">
+            </div>
+            <!-- Text -->
+            <div class="order-first lg:order-last">
+                <h2 class="text-xl sm:text-2xl font-display mb-4 sm:mb-6 tracking-wider text-secondary transform transition-all duration-300 hover:translate-x-1 inline-block">
+                    Rooted in Community
+                </h2>
+                <div class="space-y-3 sm:space-y-4 text-secondary text-sm sm:text-base">
+                    <p class="transition-all duration-300 hover:text-secondary/90">
+                        FARMesilla was founded in 2016 by T.J. Runyan, a proud NMSU graduate and longtime advocate for southern New Mexico's agricultural legacy. T.J. created FARMesilla as a hub where the Mesilla Valley's rich produce, flavors, and craftsmanship could be enjoyed locally.
+                    </p>
+                    <p class="transition-all duration-300 hover:text-secondary/90">
+                        Today, FARMesilla stands as a symbol of local pride and sustainability. We work closely with area farmers, ranchers, and small businesses to ensure that over 90% of our goods come straight from New Mexico soil.
+                    </p>
+                    <p class="transition-all duration-300 hover:text-secondary/90">
+                        From organizing local events to spotlighting Aggie spirit through our exclusive "Aggie Corner," FARMesilla is more than a business it's a growing movement rooted in the people and place we call home.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Our Farmstore -->
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 sm:gap-12 items-center mb-12 sm:mb-16 group">
+            <!-- Text -->
+            <div>
+                <h2 class="text-xl sm:text-2xl font-display mb-4 sm:mb-6 tracking-wider text-secondary transform transition-all duration-300 hover:translate-x-1 inline-block">
+                    Our Farmstore
+                </h2>
+                <div class="space-y-3 sm:space-y-4 text-secondary text-sm sm:text-base">
+                    <p class="transition-all duration-300 hover:text-secondary/90">
+                        Inside our welcoming farmstore, you'll find the best of what New Mexico has to offer—seasonal produce, local eggs, pecans, honey, jams, handmade salsas, cold-pressed juices, bath & body scrubs and salts, wines, spirits, and artisan dry goods. Every item is hand-selected to reflect the quality, sustainability, and taste of the region.
+                    </p>
+                    <p class="transition-all duration-300 hover:text-secondary/90">
+                        Our farmstore isn't just a place to shop, it's a place to connect, discover, and support the growers and makers who make New Mexico so special.
+                    </p>
+                </div>
+            </div>
+            <!-- Image -->
+            <div class="rounded-xl overflow-hidden border border-secondary/20 group-hover:border-secondary/30 transition-all duration-500 shadow-inner">
+                <img src="assets/farmstore.jpg" alt="FARMesilla farmstore" class="w-full h-auto object-cover transition-all duration-700 group-hover:scale-105">
+            </div>
+        </div>
+
+        <!-- Our Kitchen -->
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 sm:gap-12 items-center mb-12 sm:mb-16 group">
+            <!-- Image -->
+            <div class="order-last lg:order-first rounded-xl overflow-hidden border border-secondary/20 group-hover:border-secondary/30 transition-all duration-500 shadow-inner">
+                <img src="assets/cafe.png" alt="FARMesilla restaurant" class="w-full h-auto object-cover transition-all duration-700 group-hover:scale-105">
+            </div>
+            <!-- Text -->
+            <div class="order-first lg:order-last">
+                <h2 class="text-xl sm:text-2xl font-display mb-4 sm:mb-6 tracking-wider text-secondary transform transition-all duration-300 hover:translate-x-1 inline-block">
+                    Our Kitchen
+                </h2>
+                <div class="space-y-3 sm:space-y-4 text-secondary text-sm sm:text-base">
+                    <p class="transition-all duration-300 hover:text-secondary/90">
+                        Led by acclaimed Chef Becky Windels, the FARMesilla restaurant blends fresh, local ingredients with creativity and comfort. Our menu features a rotating selection of house-made meals designed for every appetite from light bites to hearty fare.
+                    </p>
+                    <p class="transition-all duration-300 hover:text-secondary/90">
+                        Everything is made from scratch, with plenty of gluten-free and vegan-friendly options clearly labeled.
+                    </p>
+                    <p class="transition-all duration-300 hover:text-secondary/90">
+                        With cozy indoor seating and a shaded outdoor pavilion overlooking the Organ Mountains, the café offers the perfect setting for a quick bite or a relaxed meal with family and friends.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Historic Mesilla -->
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 sm:gap-12 items-center group">
+            <!-- Text -->
+            <div>
+                <h2 class="text-xl sm:text-2xl font-display mb-4 sm:mb-6 tracking-wider text-secondary transform transition-all duration-300 hover:translate-x-1 inline-block">
+                    Historic Mesilla
+                </h2>
+                <div class="space-y-3 sm:space-y-4 text-secondary text-sm sm:text-base">
+                    <p class="transition-all duration-300 hover:text-secondary/90">
+                        Nestled in the heart of Historic Mesilla, FARMesilla is surrounded by one of New Mexico’s most culturally rich and scenic destinations. With its adobe architecture, centuries-old plaza, and vibrant local spirit, Mesilla offers a glimpse into the past while celebrating the present.
+                    </p>
+                    <p class="transition-all duration-300 hover:text-secondary/90">
+                        Once home to legends like Billy the Kid, Mesilla’s history runs deep—but it’s also alive with art, music, and food. Just steps from the iconic plaza, FARMesilla proudly calls this timeless town home—blending tradition with modern flavors, and inviting both locals and travelers to experience the best of southern New Mexico.
+                    </p>
+                    <p class="transition-all duration-300 hover:text-secondary/90">
+                        Whether you're exploring historic landmarks or strolling through local shops, FARMesilla is the perfect stop to relax, recharge, and taste the valley.
+                    </p>
+                </div>
+            </div>
+            <!-- Image -->
+            <div class="rounded-xl overflow-hidden border border-secondary/20 group-hover:border-secondary/30 transition-all duration-500 shadow-inner">
+                <img src="assets/mesilla.jpg" alt="Historic Mesilla" class="w-full h-auto object-cover transition-all duration-700 group-hover:scale-105">
+            </div>
+        </div>
+
+    </div>
+</section>
+
+
+    </main>
+
+    <!-- Simple Footer -->
+    <footer class="bg-black border-t border-white/10 py-8">
+        <div class="container mx-auto px-6">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <!-- Copyright -->
+                <div class="mb-4 md:mb-0 text-sm text-white">
+                    © 2025 FARMesilla
+                </div>
+                
+                <!-- Links -->
+                <div class="flex items-center space-x-6">
+                    <a href="assets/menu.pdf" class="text-sm hover:text-accent text-white transition-colors duration-200">View Menu</a>
+                    <a href="catering.html" class="text-sm hover:text-accent text-white transition-colors duration-200">Order Catering</a>
+                    
+                    <!-- Social Icons -->
+                    <div class="flex items-center space-x-4 ml-4">
+                        <a href="https://www.facebook.com/FARMesilla/" class="text-white hover:text-accent transition-colors duration-200" aria-label="Facebook">
+                            <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M22 12c0-5.523-4.477-10-10-10S2 6.477 2 12c0 4.991 3.657 9.128 8.438 9.878v-6.987h-3.128v-3.622h3.128v-2.671c0-3.1 1.893-4.788 4.659-4.788 1.325 0 2.463.099 2.795.143v3.24l-1.918.001c-1.504 0-1.795.715-1.795 1.763v2.313h3.587l-.467 3.622h-3.12v6.988C18.343 21.128 22 16.991 22 12z"/>
+                            </svg>
+                        </a>
+                        <a href="https://www.instagram.com/farmesilla/?hl=en" class="text-white hover:text-accent transition-colors duration-200" aria-label="Instagram">
+                            <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M12.315 2c2.43 0 2.784.013 3.808.06 1.064.049 1.791.218 2.427.465a4.902 4.902 0 011.772 1.153 4.902 4.902 0 011.153 1.772c.247.636.416 1.363.465 2.427.048 1.067.06 1.407.06 4.123v.08c0 2.643-.012 2.987-.06 4.043-.049 1.064-.218 1.791-.465 2.427a4.902 4.902 0 01-1.153 1.772 4.902 4.902 0 01-1.772 1.153c-.636.247-1.363.416-2.427.465-1.067.048-1.407.06-4.123.06h-.08c-2.643 0-2.987-.012-4.043-.06-1.064-.049-1.791-.218-2.427-.465a4.902 4.902 0 01-1.772-1.153 4.902 4.902 0 01-1.153-1.772c-.247-.636-.416-1.363-.465-2.427-.047-1.024-.06-1.379-.06-3.808v-.63c0-2.43.013-2.784.06-3.808.049-1.064.218-1.791.465-2.427a4.902 4.902 0 011.153-1.772A4.902 4.902 0 015.45 2.525c.636-.247 1.363-.416 2.427-.465C8.901 2.013 9.256 2 11.685 2h.63zm-.081 1.802h-.468c-2.456 0-2.784.011-3.807.058-.975.045-1.504.207-1.857.344-.467.182-.8.398-1.15.748-.35.35-.566.683-.748 1.15-.137.353-.3.882-.344 1.857-.047 1.023-.058 1.351-.058 3.807v.468c0 2.456.011 2.784.058 3.807.045.975.207 1.504.344 1.857.182.466.399.8.748 1.15.35.35.683.566 1.15.748.353.137.882.3 1.857.344 1.054.048 1.37.058 4.041.058h.08c2.597 0 2.917-.01 3.96-.058.976-.045 1.505-.207 1.858-.344.466-.182.8-.398 1.15-.748.35-.35.566-.683.748-1.15.137-.353.3-.882.344-1.857.048-1.055.058-1.37.058-4.041v-.08c0-2.597-.01-2.917-.058-3.96-.045-.976-.207-1.505-.344-1.858a3.097 3.097 0 00-.748-1.15 3.098 3.098 0 00-1.15-.748c-.353-.137-.882-.3-1.857-.344-1.023-.047-1.351-.058-3.807-.058zM12 6.865a5.135 5.135 0 110 10.27 5.135 5.135 0 010-10.27zm0 1.802a3.333 3.333 0 100 6.666 3.333 3.333 0 000-6.666zm5.338-3.205a1.2 1.2 0 110 2.4 1.2 1.2 0 010-2.4z"/>
+                            </svg>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    
+</body>
+</html>
