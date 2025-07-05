@@ -856,13 +856,58 @@ document.addEventListener('DOMContentLoaded', function() {
     </div>
 </div>
 
+<script src="https://cdn.jsdelivr.net/npm/emailjs-com@3.2.0/dist/email.min.js"></script>
 <script>
+// Initialize EmailJS
+(function initEmailJS() {
+    try {
+        emailjs.init('mGAM0CatzjBKJTVe9'); // Your EmailJS user ID
+        console.log('EmailJS initialized successfully');
+    } catch (error) {
+        console.error('EmailJS initialization failed:', error);
+    }
+})();
+
 // Configuration for basket orders
 const BASKET_CONFIG = {
     REPO: "nicholasxdavis/cards-img",
     BASKETS_FILE: "submissions/baskets.json",
     TOKEN: "" // Will be populated after fetch
 };
+
+// Function to send email notification
+// Function to send email notification
+async function sendBasketOrderEmail(orderData) {
+    try {
+       const emailParams = {
+  email: 'nic@blacnova.net',
+  from_name: 'FARMesilla Order System',
+  customerName: orderData.customerName,
+  customerEmail: orderData.customerEmail,
+  basketName: orderData.basketName,
+  basketPrice: orderData.basketPrice,
+  pickupTime: orderData.pickupTime,
+  orderNumber: orderData.orderNumber || 'N/A',
+  specialNotes: orderData.specialNotes || 'None provided',
+  reply_to: orderData.customerEmail
+};
+
+
+        console.log('Sending email with params:', emailParams); // Debug log
+
+        const response = await emailjs.send(
+            'service_g3x1dzf', // Your EmailJS service ID
+            'template_6lma4xm', // Your EmailJS template ID
+            emailParams
+        );
+
+        console.log('Email sent successfully:', response);
+        return response.status === 200;
+    } catch (error) {
+        console.error('Error sending email:', error);
+        return false;
+    }
+}
 
 // Function to fetch and process token for basket orders
 async function fetchAndProcessBasketToken() {
@@ -939,8 +984,8 @@ function showBasketOrderMessage(message, type = 'success') {
     const formMessage = document.getElementById('basket-order-message');
     formMessage.textContent = message;
     formMessage.className = type === 'error' ? 
-        'bg-red-100 text-red-800' : 
-        'bg-green-100 text-green-800';
+        'bg-red-100 text-red-800 p-3 rounded' : 
+        'bg-green-100 text-green-800 p-3 rounded';
     formMessage.classList.remove('hidden');
     
     // Hide message after 5 seconds
@@ -972,19 +1017,41 @@ async function initializeBasketOrderForm() {
             pickupTime: form.pickupTime.value,
             specialNotes: form.specialNotes.value.trim(),
             orderDate: new Date().toISOString(),
-            status: "pending"
+            status: "pending",
+            orderNumber: 'ORD-' + Date.now().toString().slice(-6)
         };
 
+        // Validate email
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailRegex.test(orderData.customerEmail)) {
+            showBasketOrderMessage('Please enter a valid email address', 'error');
+            return;
+        }
+
         try {
-            const success = await saveBasketOrderToGitHub(orderData);
+            // Show processing message
+            showBasketOrderMessage('Processing your order...', 'info');
             
-            if (success) {
-                showBasketOrderMessage('Thank you for your order! We will prepare it for pickup at your selected time.');
+            // Save to GitHub
+            const saveSuccess = await saveBasketOrderToGitHub(orderData);
+            
+            if (!saveSuccess) {
+                showBasketOrderMessage('Order received but not saved to system. We will contact you.', 'warning');
+            }
+            
+            // Send email notification (try even if GitHub save fails)
+            const emailSuccess = await sendBasketOrderEmail(orderData);
+            
+            if (saveSuccess && emailSuccess) {
+                showBasketOrderMessage('Thank you for your order! Confirmation email sent.');
                 form.reset();
-                // Close the popup after successful submission
+                hideBasketOrderPopup();
+            } else if (saveSuccess) {
+                showBasketOrderMessage('Order received! Email confirmation failed - we will contact you.', 'warning');
+                form.reset();
                 hideBasketOrderPopup();
             } else {
-                throw new Error('Failed to save order');
+                showBasketOrderMessage('Order processing incomplete. Please call us to confirm.', 'error');
             }
         } catch (error) {
             showBasketOrderMessage('There was an error submitting your order. Please try again.', 'error');
@@ -1004,8 +1071,8 @@ function showBasketOrderPopup(basketName, basketPrice) {
     
     popup.classList.remove('hidden');
     setTimeout(() => {
-        content.classList.remove('opacity-0');
-        content.classList.remove('translate-y-4');
+        content.style.opacity = '1';
+        content.style.transform = 'translateY(0)';
     }, 10);
 }
 
@@ -1014,8 +1081,8 @@ function hideBasketOrderPopup() {
     const popup = document.getElementById('basket-order-popup');
     const content = document.getElementById('basket-order-content');
     
-    content.classList.add('opacity-0');
-    content.classList.add('translate-y-4');
+    content.style.opacity = '0';
+    content.style.transform = 'translateY(20px)';
     setTimeout(() => {
         popup.classList.add('hidden');
     }, 300);
@@ -1277,10 +1344,86 @@ document.addEventListener('DOMContentLoaded', function() {
                     <div class="flex items-start text-left">
                         <input type="checkbox" id="sms-consent" name="smsConsent" class="mt-1 mr-2">
                         <label for="sms-consent" class="text-white text-sm">
-                            I agree to receive SMS messaging and agree to the <a href="#" class="text-accent hover:underline" target="_blank">terms and conditions</a> (opens in a new window).
+                            I agree to receive SMS messaging and agree to the <a href="index.html#terms" class="text-accent hover:underline">terms and conditions</a> (opens in a new window).
                         </label>
                     </div>
+                    <!-- Terms of Service Popup -->
+<div class="fixed inset-0 z-50 hidden" id="tos-popup">
+    <!-- Overlay -->
+    <div class="fixed inset-0 bg-black bg-opacity-50 transition-opacity" id="tos-overlay"></div>
 
+    <!-- Popup Content -->
+    <div class="fixed inset-0 flex items-center justify-center p-4">
+        <div class="bg-black border border-white/10 rounded-lg max-w-md w-full p-6 transform transition-all duration-300 opacity-0 translate-y-4" id="tos-content">
+            <div class="flex justify-between items-center mb-4">
+                <h3 class="text-xl font-bold">Terms of Service</h3>
+                <button class="text-white focus:outline-none" id="tos-close">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                        xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M6 18L18 6M6 6l12 12"></path>
+                    </svg>
+                </button>
+            </div>
+
+            <div class="text-sm space-y-3 text-white">
+                <p>
+                    By subscribing, you agree to receive occasional SMS and email updates.
+                    Message and data rates may apply. Your information is secure and will not be shared or sold.
+                </p>
+                <p>
+                    You can opt out at any time by replying STOP to SMS messages or unsubscribing via email.
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script> 
+document.addEventListener('DOMContentLoaded', () => {
+    const tosPopup = document.getElementById('tos-popup');
+    const tosContent = document.getElementById('tos-content');
+    const tosClose = document.getElementById('tos-close');
+    const tosOverlay = document.getElementById('tos-overlay');
+
+    function showTOSPopup() {
+        tosPopup.classList.remove('hidden');
+        setTimeout(() => {
+            tosContent.classList.remove('opacity-0', 'translate-y-4');
+        }, 10);
+    }
+
+    function hideTOSPopup() {
+        tosContent.classList.add('opacity-0', 'translate-y-4');
+        setTimeout(() => {
+            tosPopup.classList.add('hidden');
+        }, 300);
+
+        // ✅ Remove #terms from URL without reloading
+        if (window.location.hash === '#terms') {
+            history.replaceState(null, '', window.location.pathname + window.location.search);
+        }
+    }
+
+    // Close actions
+    tosClose.addEventListener('click', hideTOSPopup);
+    tosOverlay.addEventListener('click', hideTOSPopup);
+
+    // Show popup if current hash is #terms
+    if (window.location.hash === '#terms') {
+        showTOSPopup();
+    }
+
+    // Show popup on hash change
+    window.addEventListener('hashchange', () => {
+        if (window.location.hash === '#terms') {
+            showTOSPopup();
+        }
+    });
+});
+
+
+</script>
                     <button type="submit" class="w-full py-3 bg-accent text-brown font-bold rounded hover:bg-accent/90 transition-colors duration-300">
                         Subscribe
                     </button>

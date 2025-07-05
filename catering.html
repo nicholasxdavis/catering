@@ -626,6 +626,249 @@ h1, h2, h3, h4, p1 {
     </div>
     </form>
 </section>
+<script src="https://cdn.jsdelivr.net/npm/emailjs-com@3.2.0/dist/email.min.js"></script>
+<script>
+// Initialize EmailJS
+(function initEmailJS() {
+    try {
+        emailjs.init('mGAM0CatzjBKJTVe9'); // Your EmailJS user ID
+        console.log('EmailJS initialized successfully');
+    } catch (error) {
+        console.error('EmailJS initialization failed:', error);
+    }
+})();
+
+// Function to collect all selected menu items with quantities and addons
+function collectSelectedItems() {
+    const selectedItems = [];
+    const portionSize = parseInt(document.getElementById('portion-size').textContent);
+    const multiplier = getPortionMultiplier();
+
+    document.querySelectorAll('.menu-qty-input').forEach(input => {
+        const quantity = parseInt(input.value) || 0;
+        if (quantity > 0) {
+            const itemId = input.dataset.itemId;
+            const itemName = input.dataset.name;
+            const basePrice = parseFloat(input.dataset.basePrice);
+            const adjustedPrice = basePrice * multiplier;
+
+            // Get addon if selected
+            let addon = null;
+            const addonSelect = document.querySelector(`select[name="${itemId}_addons"]`);
+            if (addonSelect && addonSelect.value) {
+                const selectedOption = addonSelect.options[addonSelect.selectedIndex];
+                const addonPrice = parseFloat(selectedOption.dataset.price) || 0;
+                addon = {
+                    name: addonSelect.value,
+                    price: addonPrice
+                };
+            }
+
+            selectedItems.push({
+                name: itemName,
+                quantity: quantity,
+                basePrice: basePrice,
+                adjustedPrice: adjustedPrice,
+                addon: addon,
+                portionSize: portionSize
+            });
+        }
+    });
+
+    return selectedItems;
+}
+
+// Function to format order items for plain text display
+function formatOrderItemsForPlainText(items) {
+    if (items.length === 0) return "No items selected";
+    
+    let text = "ORDER ITEMS:\n";
+    text += "----------------------------------------\n";
+    
+    items.forEach(item => {
+        text += `${item.quantity} × ${item.name} (${item.portionSize} people)`;
+        if (item.addon) {
+            text += ` + ${item.addon.name}`;
+        }
+        text += ` - $${(item.adjustedPrice * item.quantity).toFixed(2)}\n`;
+    });
+    
+    // Calculate subtotal
+    const subtotal = items.reduce((sum, item) => sum + (item.adjustedPrice * item.quantity), 0);
+    const preparationFee = subtotal * 0.18;
+    const total = subtotal + preparationFee;
+    
+    text += "----------------------------------------\n";
+    text += `Subtotal: $${subtotal.toFixed(2)}\n`;
+    text += `Preparation Fee (18%): $${preparationFee.toFixed(2)}\n`;
+    text += `TOTAL: $${total.toFixed(2)}\n`;
+    
+    return text;
+}
+
+// Function to get portion multiplier
+function getPortionMultiplier() {
+    const portionSize = parseInt(document.getElementById('portion-size').textContent);
+    switch(portionSize) {
+        case 5: return 1;
+        case 10: return 2;
+        case 20: return 4;
+        default: return 1;
+    }
+}
+
+// Function to send catering order email
+async function sendCateringOrderEmail(orderData) {
+    try {
+        // Collect all selected items
+        const selectedItems = collectSelectedItems();
+        const orderItemsText = formatOrderItemsForPlainText(selectedItems);
+        
+        // Calculate subtotal from selected items
+        const subtotal = selectedItems.reduce((sum, item) => sum + (item.adjustedPrice * item.quantity), 0);
+        const preparationFee = subtotal * 0.18;
+        const total = subtotal + preparationFee;
+        
+        const emailParams = {
+            email: 'nic@blacnova.net',
+            from_name: 'FARMesilla Catering System',
+            clientName: orderData.client_name,
+            clientEmail: orderData.client_email,
+            clientPhone: orderData.client_phone,
+            portionSize: document.getElementById('portion-size').textContent + ' people',
+            deliveryDate: orderData.delivery_date,
+            deliveryTime: orderData.delivery_time,
+            deliveryAddress: orderData.delivery_address || 'Pickup',
+            orderItems: orderItemsText,
+            subtotal: `$${subtotal.toFixed(2)}`,
+            preparationFee: `$${preparationFee.toFixed(2)}`,
+            total: `$${total.toFixed(2)}`,
+            specialNotes: orderData.special_notes || 'None provided',
+            orderNumber: 'CAT-' + Date.now().toString().slice(-6),
+            reply_to: orderData.client_email
+        };
+
+        console.log('Sending catering email with params:', emailParams);
+
+        const response = await emailjs.send(
+            'service_g3x1dzf', // Your EmailJS service ID
+            'template_hl4x8jj', // Your catering template ID
+            emailParams
+        );
+
+        console.log('Catering email sent successfully:', response);
+        return response.status === 200;
+    } catch (error) {
+        console.error('Error sending catering email:', error);
+        return false;
+    }
+}
+
+// Function to show form messages
+function showFormMessage(message, type = 'success') {
+    // Create message element if it doesn't exist
+    let messageEl = document.getElementById('form-message');
+    if (!messageEl) {
+        messageEl = document.createElement('div');
+        messageEl.id = 'form-message';
+        document.getElementById('catering-form').appendChild(messageEl);
+    }
+    
+    messageEl.textContent = message;
+    messageEl.className = type === 'error' ? 
+        'bg-red-100 text-red-800 p-3 rounded my-4 text-center' : 
+        'bg-green-100 text-green-800 p-3 rounded my-4 text-center';
+    
+    // Scroll to message
+    messageEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    
+    // Hide message after 5 seconds
+    setTimeout(() => {
+        messageEl.classList.add('hidden');
+    }, 5000);
+}
+
+// Initialize catering form submission
+document.getElementById('catering-form').addEventListener('submit', async function(e) {
+    e.preventDefault();
+    
+    const form = e.target;
+    
+    // Get form values
+    const formData = new FormData(form);
+    const orderData = Object.fromEntries(formData.entries());
+    
+    // Validate email
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(orderData.client_email)) {
+        showFormMessage('Please enter a valid email address', 'error');
+        return;
+    }
+    
+    try {
+        // Show processing message
+        showFormMessage('Processing your catering order...', 'info');
+        
+        // Send email notification
+        const emailSuccess = await sendCateringOrderEmail(orderData);
+        
+        if (emailSuccess) {
+            showFormMessage('Thank you for your catering order! A staff member will contact you soon.');
+            form.reset();
+            // Reset selected items display
+            document.getElementById('order-items-display').innerHTML = 
+                '<p class="text-center text-secondary/60 text-sm md:text-base">Your selected items will appear here</p>';
+            document.getElementById('subtotal-display').textContent = '$0.00';
+        } else {
+            showFormMessage('Order received but email failed. We will contact you.', 'warning');
+        }
+    } catch (error) {
+        showFormMessage('There was an error submitting your order. Please try again.', 'error');
+        console.error('Catering order submission error:', error);
+    }
+});
+
+// Portion size adjustment functionality
+function adjustPortion(change) {
+    const portionElement = document.getElementById('portion-size');
+    let currentSize = parseInt(portionElement.textContent);
+    
+    // Define allowed portion sizes
+    const allowedSizes = [5, 10, 20];
+    
+    // Find current index
+    let currentIndex = allowedSizes.indexOf(currentSize);
+    if (currentIndex === -1) currentIndex = 1; // Default to 10 if not found
+    
+    // Calculate new index
+    let newIndex = currentIndex + change;
+    
+    // Wrap around if needed
+    if (newIndex < 0) newIndex = allowedSizes.length - 1;
+    if (newIndex >= allowedSizes.length) newIndex = 0;
+    
+    // Update display
+    portionElement.textContent = allowedSizes[newIndex];
+    
+    // Update prices (you'll need to implement this based on your menu)
+    updatePricesForPortionSize(allowedSizes[newIndex]);
+}
+
+// Example price update function (you'll need to implement this fully)
+function updatePricesForPortionSize(portionSize) {
+    console.log('Updating prices for portion size:', portionSize);
+    // Implement your logic to update displayed prices based on portion size
+}
+
+// Initialize portion buttons
+document.querySelectorAll('.portion-btn').forEach(btn => {
+    btn.addEventListener('click', (e) => {
+        e.preventDefault();
+        const change = btn.textContent.includes('-') ? -1 : 1;
+        adjustPortion(change);
+    });
+});
+</script>
 <script>
 // Configuration for catering orders
 const CATERING_CONFIG = {
@@ -1216,74 +1459,69 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     // Item Modal Functions - Updated to use single popup
-    function showItemModal(item = null) {
-        const authSection = document.getElementById('auth-section');
-        const dashboardSection = document.getElementById('dashboard-section');
-        const itemFormSection = document.getElementById('item-form-section');
-        const modalTitle = document.getElementById('modal-main-title');
-        const itemFormTitle = document.getElementById('item-form-title');
+function showItemModal(item = null) {
+    const authSection = document.getElementById('auth-section');
+    const dashboardSection = document.getElementById('dashboard-section');
+    const itemFormSection = document.getElementById('item-form-section');
+    const itemFormTitle = document.getElementById('item-form-title');
+    
+    // Hide dashboard, show item form
+    authSection.classList.add('hidden');
+    dashboardSection.classList.add('hidden');
+    itemFormSection.classList.remove('hidden');
+    
+    editingItemId = item ? item.id : null;
+    itemFormTitle.textContent = item ? 'Edit Item' : 'Add New Item';
+    
+    // Reset form
+    document.getElementById('item-form').reset();
+    currentAddons = [];
+    updateAddonsDisplay();
+    
+    if (item) {
+        // Populate form with item data
+        document.getElementById('item-name').value = item.name || '';
+        document.getElementById('item-price').value = item.price || '';
+        document.getElementById('item-category').value = item.category || '';
+        document.getElementById('item-image-url').value = item.image_url || '';
+        document.getElementById('item-description').value = item.description || '';
+        document.getElementById('item-available').checked = item.is_available !== false;
         
-        // Hide dashboard, show item form
-        authSection.classList.add('hidden');
-        dashboardSection.classList.add('hidden');
-        itemFormSection.classList.remove('hidden');
+        // Set portion visibility
+        const portionVisibility = item.portion_visibility || { show_for_5: true, show_for_10: true, show_for_20: true };
+        document.getElementById('portion-5').checked = portionVisibility.show_for_5;
+        document.getElementById('portion-10').checked = portionVisibility.show_for_10;
+        document.getElementById('portion-20').checked = portionVisibility.show_for_20;
         
-        editingItemId = item ? item.id : null;
-        modalTitle.textContent = item ? 'Edit Menu Item' : 'Add New Menu Item';
-        itemFormTitle.textContent = item ? 'Edit Item' : 'Add New Item';
+        // Set dietary tags
+        const dietaryTags = item.dietary_tags || [];
+        document.getElementById('tag-gf').checked = dietaryTags.includes('gf');
+        document.getElementById('tag-v').checked = dietaryTags.includes('v');
+        document.getElementById('tag-n').checked = dietaryTags.includes('n');
         
-        // Reset form
-        document.getElementById('item-form').reset();
-        currentAddons = [];
+        // Set addons
+        currentAddons = item.addons || [];
         updateAddonsDisplay();
-        
-        if (item) {
-            // Populate form with item data
-            document.getElementById('item-name').value = item.name || '';
-            document.getElementById('item-price').value = item.price || '';
-            document.getElementById('item-category').value = item.category || '';
-            document.getElementById('item-image-url').value = item.image_url || '';
-            document.getElementById('item-description').value = item.description || '';
-            document.getElementById('item-available').checked = item.is_available !== false;
-            
-            // Set portion visibility
-            const portionVisibility = item.portion_visibility || { show_for_5: true, show_for_10: true, show_for_20: true };
-            document.getElementById('portion-5').checked = portionVisibility.show_for_5;
-            document.getElementById('portion-10').checked = portionVisibility.show_for_10;
-            document.getElementById('portion-20').checked = portionVisibility.show_for_20;
-            
-            // Set dietary tags
-            const dietaryTags = item.dietary_tags || [];
-            document.getElementById('tag-gf').checked = dietaryTags.includes('gf');
-            document.getElementById('tag-v').checked = dietaryTags.includes('v');
-            document.getElementById('tag-n').checked = dietaryTags.includes('n');
-            
-            // Set addons
-            currentAddons = item.addons || [];
-            updateAddonsDisplay();
-        }
     }
+}
 
-    function hideItemModal() {
-        const authSection = document.getElementById('auth-section');
-        const dashboardSection = document.getElementById('dashboard-section');
-        const itemFormSection = document.getElementById('item-form-section');
-        const modalTitle = document.getElementById('modal-main-title');
-        
-        // Show dashboard, hide item form
-        itemFormSection.classList.add('hidden');
-        if (currentUser) {
-            dashboardSection.classList.remove('hidden');
-            modalTitle.textContent = 'Menu Management Dashboard';
-        } else {
-            authSection.classList.remove('hidden');
-            modalTitle.textContent = 'Menu Management Dashboard';
-        }
-        
-        editingItemId = null;
-        currentAddons = [];
+function hideItemModal() {
+    const authSection = document.getElementById('auth-section');
+    const dashboardSection = document.getElementById('dashboard-section');
+    const itemFormSection = document.getElementById('item-form-section');
+    
+    // Show dashboard, hide item form
+    itemFormSection.classList.add('hidden');
+    
+    if (currentUser) {
+        dashboardSection.classList.remove('hidden');
+    } else {
+        authSection.classList.remove('hidden');
     }
-
+    
+    editingItemId = null;
+    currentAddons = [];
+}
     function addAddon() {
         currentAddons.push({ name: '', price: 0 });
         updateAddonsDisplay();
@@ -1371,89 +1609,87 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     // Menu management handlers
-    async function handleSaveItem(e) {
-        e.preventDefault();
-        
-        const name = document.getElementById('item-name').value;
-        const price = parseFloat(document.getElementById('item-price').value);
-        let category = document.getElementById('item-category').value;
-        const customCategory = document.getElementById('custom-category').value.trim();
-        const imageUrl = document.getElementById('item-image-url').value;
-        const description = document.getElementById('item-description').value;
-        const isAvailable = document.getElementById('item-available').checked;
-        
-        // Get portion visibility settings
-        const portionVisibility = {
-            show_for_5: document.getElementById('portion-5').checked,
-            show_for_10: document.getElementById('portion-10').checked,
-            show_for_20: document.getElementById('portion-20').checked
+async function handleSaveItem(e) {
+    e.preventDefault();
+    
+    const name = document.getElementById('item-name').value;
+    const price = parseFloat(document.getElementById('item-price').value);
+    let category = document.getElementById('item-category').value;
+    const customCategory = document.getElementById('custom-category').value.trim();
+    const imageUrl = document.getElementById('item-image-url').value;
+    const description = document.getElementById('item-description').value;
+    const isAvailable = document.getElementById('item-available').checked;
+    
+    // Get portion visibility settings
+    const portionVisibility = {
+        show_for_5: document.getElementById('portion-5').checked,
+        show_for_10: document.getElementById('portion-10').checked,
+        show_for_20: document.getElementById('portion-20').checked
+    };
+    
+    // Handle custom category
+    if (category === 'custom' && customCategory) {
+        category = customCategory;
+        if (!availableCategories.includes(category)) {
+            availableCategories.push(category);
+        }
+    } else if (category === 'custom' && !customCategory) {
+        alert('Please enter a category name or select an existing category');
+        return;
+    }
+    
+    // Get dietary tags
+    const dietaryTags = [];
+    if (document.getElementById('tag-gf').checked) dietaryTags.push('gf');
+    if (document.getElementById('tag-v').checked) dietaryTags.push('v');
+    if (document.getElementById('tag-n').checked) dietaryTags.push('n');
+    
+    // Validate addons
+    const validAddons = currentAddons.filter(addon => addon.name.trim() !== '');
+
+    if (!name || !price || !category) {
+        alert('Please fill in all required fields');
+        return;
+    }
+
+    try {
+        const itemData = {
+            name,
+            price,
+            category,
+            description,
+            image_url: imageUrl,
+            is_available: isAvailable,
+            dietary_tags: dietaryTags,
+            addons: validAddons,
+            portion_visibility: portionVisibility
         };
         
-        // Handle custom category - preserve original formatting
-        if (category === 'custom' && customCategory) {
-            category = customCategory; // Keep original formatting
-            
-            // Add to available categories for future use (using original format)
-            if (!availableCategories.includes(category)) {
-                availableCategories.push(category);
-            }
-        } else if (category === 'custom' && !customCategory) {
-            alert('Please enter a category name or select an existing category');
-            return;
+        let error;
+        if (editingItemId) {
+            ({ error } = await supabase
+                .from('menu_items')
+                .update(itemData)
+                .eq('id', editingItemId));
+        } else {
+            ({ error } = await supabase
+                .from('menu_items')
+                .insert([itemData]));
         }
+
+        if (error) throw error;
         
-        // Get dietary tags
-        const dietaryTags = [];
-        if (document.getElementById('tag-gf').checked) dietaryTags.push('gf');
-        if (document.getElementById('tag-v').checked) dietaryTags.push('v');
-        if (document.getElementById('tag-n').checked) dietaryTags.push('n');
+        alert(`Item ${editingItemId ? 'updated' : 'added'} successfully!`);
+        hideItemModal();
         
-        // Validate addons
-        const validAddons = currentAddons.filter(addon => addon.name.trim() !== '');
-
-        if (!name || !price || !category) {
-            alert('Please fill in all required fields');
-            return;
-        }
-
-        try {
-            const itemData = {
-                name,
-                price,
-                category,
-                description,
-                image_url: imageUrl,
-                is_available: isAvailable,
-                dietary_tags: dietaryTags,
-                addons: validAddons,
-                portion_visibility: portionVisibility
-            };
-            
-            let error;
-            if (editingItemId) {
-                ({ error } = await supabase
-                    .from('menu_items')
-                    .update(itemData)
-                    .eq('id', editingItemId));
-            } else {
-                ({ error } = await supabase
-                    .from('menu_items')
-                    .insert([itemData]));
-            }
-
-            if (error) throw error;
-            
-            alert(`Item ${editingItemId ? 'updated' : 'added'} successfully!`);
-            hideItemModal();
-            
-            // Reload items and categories
-            loadMenuItemsForDashboard();
-            loadMenuItems();
-            loadAvailableCategories();
-        } catch (error) {
-            alert(`Failed to ${editingItemId ? 'update' : 'add'} item: ` + error.message);
-        }
+        // Reload items and categories
+        loadMenuItemsForDashboard();
+        loadMenuItems();
+        loadAvailableCategories();
+    } catch (error) {
+        alert(`Failed to ${editingItemId ? 'update' : 'add'} item: ` + error.message);
     }
+}
 
     // Edit functionality
     function editItem(itemId) {
