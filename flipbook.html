@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FARMesilla | Catering Services | Mesilla, NM</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            primary: '#f5e7d0',
+            primary2: '#e8d9c0',
+            secondary: '#33251e',
+            w: '#fff',
+            b: '#000',
+            accent: '#432f25'
+          },
+          fontFamily: {
+            title: ['"Bernard MT Condensed"', 'serif'],
+            body: ['"Adabi MT Light"', 'sans-serif']
+          }
+        }
+      }
+    }
+</script>
+
+<link href="https://db.onlinewebfonts.com/c/a552118ceee33dff8a6acab5d1c10b60?family=Bernard+MT+Condensed+V1" rel="stylesheet">
+<link href="https://db.onlinewebfonts.com/c/0828325a5d135368bf470ed1f2e68d63?family=Abadi+MT+Std+Light" rel="stylesheet">
+
+<style>
+    /* Bernard MT Condensed */
+@font-face {
+  font-family: 'Bernard MT Condensed';
+  src: url('https://db.onlinewebfonts.com/t/a552118ceee33dff8a6acab5d1c10b60.eot');
+  src: url('https://db.onlinewebfonts.com/t/a552118ceee33dff8a6acab5d1c10b60.eot?#iefix') format('embedded-opentype'),
+       url('https://db.onlinewebfonts.com/t/a552118ceee33dff8a6acab5d1c10b60.woff2') format('woff2'),
+       url('https://db.onlinewebfonts.com/t/a552118ceee33dff8a6acab5d1c10b60.woff') format('woff'),
+       url('https://db.onlinewebfonts.com/t/a552118ceee33dff8a6acab5d1c10b60.ttf') format('truetype'),
+       url('https://db.onlinewebfonts.com/t/a552118ceee33dff8a6acab5d1c10b60.svg#Bernard MT Condensed V1') format('svg');
+  font-style: normal;
+  font-display: swap;
+}
+
+/* Abadi MT Light */
+@font-face {
+  font-family: 'Abadi MT Std Light';
+  src: url('https://db.onlinewebfonts.com/t/0828325c...63.eot');
+  src: url('https://db.onlinewebfonts.com/t/0828325c...63.eot?#iefix') format('embedded-opentype'),
+       url('https://db.onlinewebfonts.com/t/0828325c...63.woff2') format('woff2'),
+       url('https://db.onlinewebfonts.com/t/0828325c...63.woff') format('woff'),
+       url('https://db.onlinewebfonts.com/t/0828325c...63.ttf') format('truetype'),
+       url('https://db.onlinewebfonts.com/t/0828325c...63.svg#Abadi MT Std Light') format('svg');
+  font-style: normal;
+  font-display: swap;
+}
+body {
+  background-color: #f5e7d0;
+  background-image: url('https://www.transparenttextures.com/patterns/soft-wallpaper.png');
+  background-repeat: repeat;
+  background-size: auto;
+  position: relative;
+}
+
+body::before {
+  content: "";
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background-image: url('https://www.transparenttextures.com/patterns/soft-wallpaper.png');
+  opacity: 0.1;
+  pointer-events: none;
+  z-index: 0;
+}
+
+body {
+  font-family: 'Adabi MT Light', sans-serif;
+  letter-spacing: 0.02em;
+}
+
+h1, h2, h3, h4, p1 {
+  font-family: 'Bernard MT Condensed', serif;
+  font-weight: 500;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.section-content {
+  position: relative;
+  z-index: 2;
+}
+
+.menu-item-image {
+  width: 96px;
+  height: 96px;
+  object-fit: cover;
+  border-radius: 8px;
+  border: 2px solid #c8b697;
+}
+
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.modal-content {
+  background: white;
+  border-radius: 8px;
+  padding: 2rem;
+  max-width: 90vw;
+  max-height: 90vh;
+  overflow-y: auto;
+  position: relative;
+}
+
+.close-btn {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  cursor: pointer;
+}
+
+.hidden { display: none; }
+
+.editable-item {
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  padding: 1rem;
+  margin-bottom: 1rem;
+  background: #f9fafb;
+}
+
+.edit-form input, .edit-form textarea, .edit-form select {
+  width: 100%;
+  padding: 0.5rem;
+  border: 1px solid #d1d5db;
+  border-radius: 4px;
+  margin-bottom: 0.5rem;
+}
+
+.save-btn, .edit-btn, .delete-btn, .cancel-btn {
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  margin-right: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.save-btn { background: #10b981; color: white; }
+.edit-btn { background: #3b82f6; color: white; }
+.delete-btn { background: #ef4444; color: white; }
+.cancel-btn { background: #6b7280; color: white; }
+
+.collapsible-content {
+  transition: max-height 0.3s ease-out;
+  overflow: hidden;
+}
+
+.toggle-arrow {
+  display: inline-block;
+  transition: transform 0.3s ease;
+}
+</style>
+</head>
+
+<nav class="bg-b top-0 z-50 shadow-md">
+    <div class="container mx-auto px-4 sm:px-6 py-3 md:py-4">
+        <div class="flex items-center justify-between">
+            <!-- Logo/Brand and Homepage Button -->
+            <div class="flex items-center space-x-4">
+                <a href="#" class="flex items-center">
+                    <img src="assets/f2g.png" alt="FARMesilla" class="h-28 md:h-28">
+                </a>
+
+
+
+            </div>
+
+            <!-- Desktop Navigation (without Homepage button) -->
+            <div class="hidden md:flex items-center space-x-8">
+                <a href="about.html" class="text-primary text-sm md:text-base tracking-wider hover:text-accent transition duration-300 font-title">ABOUT US</a>
+                <a href="index.html#contact" class="text-primary text-sm md:text-base tracking-wider hover:text-accent transition duration-300 font-title">CONTACT US</a>
+                        <a href="index.html" class="hidden md:inline-block bg-primary text-secondary px-4 py-2 rounded-full hover:text-primary hover:bg-accent transition duration-300 text-sm tracking-wider font-title">
+  HOMEPAGE
+</a>
+                <!-- Account Icon -->
+                <button id="account-btn" class="text-primary hover:text-accent transition duration-300 p-2">
+                    <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
+                    </svg>
+                </button>
+            </div>
+
+            <!-- Mobile menu button -->
+            <div class="md:hidden flex items-center space-x-4">
+                <!-- Mobile Account Icon -->
+                <button id="mobile-account-btn" class="text-primary hover:text-accent transition duration-300 p-2">
+                    <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
+                    </svg>
+                </button>
+                
+                <button type="button" class="mobile-menu-button text-primary focus:outline-none">
+                    <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                    </svg>
+                </button>
+            </div>
+        </div>
+
+        <!-- Mobile menu (without Homepage button) -->
+        <div class="mobile-menu hidden md:hidden pt-4 pb-2">
+            <div class="flex flex-col items-center justify-center space-y-3 text-center">
+                <a href="about.html" class="block px-3 py-2 hover:text-accent text-primary text-sm tracking-wider font-title">ABOUT US</a>
+                <a href="index.html#contact" class="block px-3 py-2 hover:text-accent text-primary text-sm tracking-wider font-title">CONTACT US</a>
+                <a href="index.html" class="bg-primary text-secondary px-4 py-2 rounded-full hover:text-primary hover:bg-accent transition duration-300 text-sm tracking-wider font-title">HOMEPAGE</a>
+            </div>
+        </div>
+    </div>
+</nav>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const accountModal = document.getElementById('account-modal');
+        const body = document.body;
+        
+        function toggleBodyScroll(enable) {
+            if (enable) {
+                body.style.overflow = '';
+                body.style.position = '';
+                body.style.height = '';
+                body.style.width = '';
+            } else {
+                body.style.overflow = 'hidden';
+                body.style.position = 'fixed';
+                body.style.height = '100%';
+                body.style.width = '100%';
+            }
+        }
+        
+        document.getElementById('account-btn').addEventListener('click', function() {
+            toggleBodyScroll(false);
+        });
+        
+        document.getElementById('mobile-account-btn').addEventListener('click', function() {
+            toggleBodyScroll(false);
+        });
+        
+        document.getElementById('close-modal').addEventListener('click', function() {
+            toggleBodyScroll(true);
+        });
+        
+        accountModal.addEventListener('click', function(e) {
+            if (e.target === accountModal) {
+                toggleBodyScroll(true);
+            }
+        });
+    });
+</script>
+
+
+
+
+
+    <a href="https://online.flippingbook.com/view/582346271/" class="fbo-embed" data-fbo-id="224dbfe22c" data-fbo-ratio="3:2" data-fbo-lightbox="yes" data-fbo-width="100%" data-fbo-height="auto" data-fbo-version="1" style="min-height: 100% max-width: 100%">2025 FARMesilla MARKET TO-GO</a><script async defer src="https://online.flippingbook.com/EmbedScriptUrl.aspx?m=redir&hid=582346271"></script>
+
+<script src="https://cdn.jsdelivr.net/npm/emailjs-com@3.2.0/dist/email.min.js"></script>
+
+    <footer class="bg-black border-t border-white/10 py-8">
+        <div class="container mx-auto px-6">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <!-- Copyright -->
+                <div class="mb-4 md:mb-0 text-sm text-white">
+                    © 2025 FARMesilla
+                </div>
+                
+                <!-- Links -->
+                <div class="flex items-center space-x-6">
+                    <a href="assets/menu.pdf" class="text-sm hover:text-accent text-white transition-colors duration-200">View Menu</a>
+                    <a href="catering.html" class="text-sm hover:text-accent text-white transition-colors duration-200">Order Catering</a>
+                    
+                    <!-- Social Icons -->
+                    <div class="flex items-center space-x-4 ml-4">
+                        <a href="https://www.facebook.com/FARMesilla/" class="text-white hover:text-accent transition-colors duration-200" aria-label="Facebook">
+                            <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M22 12c0-5.523-4.477-10-10-10S2 6.477 2 12c0 4.991 3.657 9.128 8.438 9.878v-6.987h-3.128v-3.622h3.128v-2.671c0-3.1 1.893-4.788 4.659-4.788 1.325 0 2.463.099 2.795.143v3.24l-1.918.001c-1.504 0-1.795.715-1.795 1.763v2.313h3.587l-.467 3.622h-3.12v6.988C18.343 21.128 22 16.991 22 12z"/>
+                            </svg>
+                        </a>
+                        <a href="https://www.instagram.com/farmesilla/?hl=en" class="text-white hover:text-accent transition-colors duration-200" aria-label="Instagram">
+                            <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M12.315 2c2.43 0 2.784.013 3.808.06 1.064.049 1.791.218 2.427.465a4.902 4.902 0 011.772 1.153 4.902 4.902 0 011.153 1.772c.247.636.416 1.363.465 2.427.048 1.067.06 1.407.06 4.123v.08c0 2.643-.012 2.987-.06 4.043-.049 1.064-.218 1.791-.465 2.427a4.902 4.902 0 01-1.153 1.772 4.902 4.902 0 01-1.772 1.153c-.636.247-1.363.416-2.427.465-1.067.048-1.407.06-4.123.06h-.08c-2.643 0-2.987-.012-4.043-.06-1.064-.049-1.791-.218-2.427-.465a4.902 4.902 0 01-1.772-1.153 4.902 4.902 0 01-1.153-1.772c-.247-.636-.416-1.363-.465-2.427-.047-1.024-.06-1.379-.06-3.808v-.63c0-2.43.013-2.784.06-3.808.049-1.064.218-1.791.465-2.427a4.902 4.902 0 011.153-1.772A4.902 4.902 0 015.45 2.525c.636-.247 1.363-.416 2.427-.465C8.901 2.013 9.256 2 11.685 2h.63zm-.081 1.802h-.468c-2.456 0-2.784.011-3.807.058-.975.045-1.504.207-1.857.344-.467.182-.8.398-1.15.748-.35.35-.566.683-.748 1.15-.137.353-.3.882-.344 1.857-.047 1.023-.058 1.351-.058 3.807v.468c0 2.456.011 2.784.058 3.807.045.975.207 1.504.344 1.857.182.466.399.8.748 1.15.35.35.683.566 1.15.748.353.137.882.3 1.857.344 1.054.048 1.37.058 4.041.058h.08c2.597 0 2.917-.01 3.96-.058.976-.045 1.505-.207 1.858-.344.466-.182.8-.398 1.15-.748.35-.35.566-.683.748-1.15.137-.353.3-.882.344-1.857.048-1.055.058-1.37.058-4.041v-.08c0-2.597-.01-2.917-.058-3.96-.045-.976-.207-1.505-.344-1.858a3.097 3.097 0 00-.748-1.15 3.098 3.098 0 00-1.15-.748c-.353-.137-.882-.3-1.857-.344-1.023-.047-1.351-.058-3.807-.058zM12 6.865a5.135 5.135 0 110 10.27 5.135 5.135 0 010-10.27zm0 1.802a3.333 3.333 0 100 6.666 3.333 3.333 0 000-6.666zm5.338-3.205a1.2 1.2 0 110 2.4 1.2 1.2 0 010-2.4z"/>
+                            </svg>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+<script>
+    // Set current year in copyright
+    document.getElementById('current-year').textContent = new Date().getFullYear();
+</script>
+<!-- Include Supabase -->
+<script src="https://unpkg.com/@supabase/supabase-js@2"></script>
+
+
+  <script src="BN-Popup/BN-Popup.js"></script>
+</body>
+</html>
