@@ -471,6 +471,47 @@ document.addEventListener('DOMContentLoaded', function() {
 </script>
 
    
+<script>
+// Create overlay
+const overlay = document.createElement('div');
+overlay.style.position = 'fixed';
+overlay.style.top = 0;
+overlay.style.left = 0;
+overlay.style.width = '100%';
+overlay.style.height = '100%';
+overlay.style.backgroundColor = '#000';
+overlay.style.zIndex = '99999';
+overlay.style.display = 'flex';
+overlay.style.flexDirection = 'column';
+overlay.style.justifyContent = 'center';
+overlay.style.alignItems = 'center';
+overlay.style.color = '#fff';
+overlay.style.fontFamily = 'sans-serif';
+
+// Add content
+overlay.innerHTML = `
+  <h1 style="margin-bottom: 20px;">Enter Credentials</h1>
+  <input id="emailInput" type="email" placeholder="Email" 
+    style="padding:10px; margin:5px; width:250px; background:#111; color:#444; border:none;">
+  <input id="passInput" type="password" placeholder="Password" 
+    style="padding:10px; margin:5px; width:250px; background:#111; color:#444; border:none;">
+  <button id="loginBtn" style="padding:10px 20px; margin-top:10px;">Enter</button>
+  <p id="errorMsg" style="color:red; display:none; margin-top:10px;">Incorrect credentials.</p>
+`;
+
+document.body.appendChild(overlay);
+
+// Add logic
+document.getElementById('loginBtn').onclick = function() {
+  const email = document.getElementById('emailInput').value.trim();
+  const pass = document.getElementById('passInput').value.trim();
+  if (email === 'chef@farmesilla.com' && pass === 'FARM1840!') {
+    overlay.remove();
+  } else {
+    document.getElementById('errorMsg').style.display = 'block';
+  }
+};
+</script>
 
     <!-- Main Content -->
     <main class="pt-20 min-h-screen">
