@@ -291,7 +291,7 @@
                 <!-- Logo/Brand -->
                 <div class="flex items-center space-x-4">
                     <a href="#" class="flex items-center">
-                        <img src="assets/log.png" alt="FARMesilla" class="h-28 md:h-28">
+                        <img src="../assets/f2g.png" alt="FARMesilla" class="h-28 md:h-28">
                     </a>
                 </div>
 
@@ -512,109 +512,177 @@
         </div>
     </div>
 
-    <!-- Event Inquiry Form Section -->
-    <section id="event-inquiry" class="py-12 md:py-20 section-content">
-        <div class="container mx-auto px-4 sm:px-6">
-            <div class="form-container max-w-4xl mx-auto">
-                <!-- Form Header -->
-                <div class="text-center mb-10">
-                    <h1 class="text-3xl md:text-4xl font-medium font-title mb-4 tracking-wider">EVENT INQUIRY FORM</h1>
-                    <p class="instruction-text text-lg mb-2">please fill out form clearly</p>
-                    <p class="instruction-text italic text-sm">an associate will contact you within 48hrs.</p>
-                </div>
-                <!-- Event Inquiry Form -->
-                <form id="event-inquiry-form">
-                    <!-- Contact Information -->
-                    <div class="form-section">
-                        <h2 class="section-title">CONTACT INFORMATION</h2>
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
-                            <div>
-                                <label class="form-label">TODAY'S DATE</label>
-                                <input type="date" name="today_date" class="form-input" required>
-                            </div>
-                            <div>
-                                <label class="form-label">NAME</label>
-                                <input type="text" name="name" class="form-input" placeholder="Enter your name" required>
-                            </div>
-                            <div>
-                                <label class="form-label">PHONE</label>
-                                <input type="tel" name="phone" class="form-input" placeholder="Enter your phone number" required>
-                            </div>
-                            <div>
-                                <label class="form-label">EMAIL</label>
-                                <input type="email" name="email" class="form-input" placeholder="Enter your email" required>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- Event Details -->
-                    <div class="form-section">
-                        <h2 class="section-title">EVENT DETAILS</h2>
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
-                            <div>
-                                <label class="form-label">EVENT DATE</label>
-                                <input type="text" name="event_date" class="form-input event-date-picker" placeholder="Select event date" required>
-                            </div>
-                            <div>
-                                <label class="form-label">EVENT TIME-FRAME</label>
-                                <input type="text" name="event_timeframe" class="form-input" placeholder="e.g., 2:00 PM - 5:00 PM" required>
-                            </div>
-                            <div>
-                                <label class="form-label">OCCASION</label>
-                                <input type="text" name="occasion" class="form-input" placeholder="e.g., Birthday, Wedding, Corporate" required>
-                            </div>
-                            <div>
-                                <label class="form-label">EVENT TYPE</label>
-                                <input type="text" name="event_type" class="form-input" placeholder="e.g., Formal, Casual, Buffet" required>
-                            </div>
-                            <div>
-                                <label class="form-label">FOOD TYPE</label>
-                                <input type="text" name="food_type" class="form-input" placeholder="e.g., Mexican, American, Fusion" required>
-                            </div>
-                            <div>
-                                <label class="form-label">NUMBER OF GUESTS</label>
-                                <input type="number" name="number_guests" class="form-input" placeholder="Enter number of guests" min="1" required>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- Budget Information -->
-                    <div class="form-section">
-                        <h2 class="section-title">BUDGET INFORMATION</h2>
-                        <div class="flex budget-container items-start md:items-center">
-                            <div class="flex-1">
-                                <label class="form-label">TOTAL BUDGET $</label>
-                                <input type="number" name="total_budget" class="form-input" placeholder="Total budget amount" min="0" step="0.01">
-                            </div>
-                            <div class="budget-or">OR</div>
-                            <div class="flex-1">
-                                <label class="form-label">BUDGET PER PERSON $</label>
-                                <input type="number" name="budget_per_person" class="form-input" placeholder="Budget per person" min="0" step="0.01">
-                            </div>
-                        </div>
-                        <p class="instruction-text italic mt-3 text-center">please provide either a total budget or a per person budget</p>
-                    </div>
-                    <!-- Additional Information -->
-                    <div class="form-section">
-                        <h2 class="section-title">ADDITIONAL INFORMATION</h2>
-                        <div class="grid grid-cols-1 gap-4 md:gap-6">
-                            <div>
-                                <label class="form-label">HOW DID YOU HEAR ABOUT US?</label>
-                                <input type="text" name="hear_about" class="form-input" placeholder="e.g., Social media, Friend, Website">
-                            </div>
-                            <div>
-                                <label class="form-label">NOTES FOR OUR CHEF OR COORDINATOR?</label>
-                                <textarea name="notes" class="form-input" rows="2" placeholder="Any special requests, dietary restrictions, or other information"></textarea>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- Form Submission -->
-                    <div class="text-center mt-10">
-                        <button type="submit" class="submit-btn">submit inquiry</button>
-                        <p class="instruction-text italic mt-5">we'll be in touch within 48 hours to discuss your event!</p>
-                    </div>
-                </form>
+  <!-- Event Inquiry Form Section -->
+<section id="event-inquiry" class="py-12 md:py-20 section-content">
+    <div class="container mx-auto px-4 sm:px-6">
+        <div class="form-container max-w-4xl mx-auto">
+
+            <!-- Form Header -->
+            <div class="text-center mb-10">
+                <h1 class="text-3xl md:text-4xl font-medium font-title mb-4 tracking-wider">EVENT INQUIRY FORM</h1>
+                <p class="instruction-text text-lg mb-2">please fill out form clearly</p>
+                <p class="instruction-text italic text-sm">an associate will contact you within 48hrs.</p>
             </div>
+
+            <!-- Event Inquiry Form -->
+            <form id="event-inquiry-form">
+
+                <!-- Contact Information -->
+                <div class="form-section">
+                    <h2 class="section-title">CONTACT INFORMATION</h2>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
+
+                        <div>
+                            <label class="form-label">
+                                TODAY'S DATE <span class="required-tag">* REQUIRED </span>
+                            </label>
+                            <input type="date" name="today_date" class="form-input" required>
+                        </div>
+
+                        <div>
+                            <label class="form-label">
+                                NAME <span class="required-tag">* REQUIRED </span>
+                            </label>
+                            <input type="text" name="name" class="form-input" placeholder="Enter your name" required>
+                        </div>
+
+                        <div>
+                            <label class="form-label">
+                                PHONE <span class="required-tag">* REQUIRED </span>
+                            </label>
+                            <input type="tel" name="phone" class="form-input" placeholder="Enter your phone number" required>
+                        </div>
+
+                        <div>
+                            <label class="form-label">
+                                EMAIL <span class="required-tag">* REQUIRED </span>
+                            </label>
+                            <input type="email" name="email" class="form-input" placeholder="Enter your email" required>
+                        </div>
+
+                    </div>
+                </div>
+
+                <!-- Event Details -->
+                <div class="form-section">
+                    <h2 class="section-title">EVENT DETAILS</h2>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
+
+                        <div>
+                            <label class="form-label">
+                                EVENT DATE <span class="required-tag">* REQUIRED </span>
+                            </label>
+                            <input type="text" name="event_date" class="form-input event-date-picker" placeholder="Select event date" required>
+                        </div>
+
+                        <div>
+                            <label class="form-label">
+                                EVENT TIME-FRAME <span class="required-tag">* REQUIRED </span>
+                            </label>
+                            <input type="text" name="event_timeframe" class="form-input" placeholder="e.g., 2:00 PM - 5:00 PM" required>
+                        </div>
+
+                        <div>
+                            <label class="form-label">
+                                OCCASION <span class="required-tag">* REQUIRED </span>
+                            </label>
+                            <input type="text" name="occasion" class="form-input" placeholder="e.g., Birthday, Wedding, Corporate" required>
+                        </div>
+
+                        <div>
+                            <label class="form-label">
+                                EVENT TYPE <span class="required-tag">* REQUIRED </span>
+                            </label>
+                            <input type="text" name="event_type" class="form-input" placeholder="e.g., Formal, Casual, Buffet" required>
+                        </div>
+
+                        <div>
+                            <label class="form-label">
+                                FOOD TYPE <span class="required-tag">* REQUIRED </span>
+                            </label>
+                            <input type="text" name="food_type" class="form-input" placeholder="e.g., Mexican, American, Fusion" required>
+                        </div>
+
+                        <div>
+                            <label class="form-label">
+                                NUMBER OF GUESTS <span class="required-tag">* REQUIRED </span>
+                            </label>
+                            <input type="number" name="number_guests" class="form-input" placeholder="Enter number of guests" min="1" required>
+                        </div>
+
+                    </div>
+                </div>
+
+                <!-- Budget Information -->
+                <div class="form-section">
+                    <h2 class="section-title">BUDGET INFORMATION</h2>
+                    <div class="flex budget-container items-start md:items-center">
+
+                        <div class="flex-1">
+                            <label class="form-label">
+                                TOTAL BUDGET $ <span class="required-tag">* REQUIRED </span>
+                            </label>
+                            <input type="number" name="total_budget" class="form-input" placeholder="Total budget amount" min="0" step="0.01" required>
+                        </div>
+
+                        <div class="budget-or">OR</div>
+
+                        <div class="flex-1">
+                            <label class="form-label">
+                                BUDGET PER PERSON $ <span class="required-tag">* REQUIRED </span>
+                            </label>
+                            <input type="number" name="budget_per_person" class="form-input" placeholder="Budget per person" min="0" step="0.01" required>
+                        </div>
+
+                    </div>
+                    <p class="instruction-text italic mt-3 text-center">
+                        please provide either a total budget or a per person budget 
+                        <span class="required-tag">* REQUIRED </span>
+                    </p>
+                </div>
+
+                <!-- Additional Information -->
+                <div class="form-section">
+                    <h2 class="section-title">ADDITIONAL INFORMATION</h2>
+                    <div class="grid grid-cols-1 gap-4 md:gap-6">
+
+                        <div>
+                            <label class="form-label">
+                                HOW DID YOU HEAR ABOUT US?
+                            </label>
+                            <input type="text" name="hear_about" class="form-input" placeholder="e.g., Social media, Friend, Website">
+                        </div>
+
+                        <div>
+                            <label class="form-label">
+                                NOTES FOR OUR CHEF OR COORDINATOR?
+                            </label>
+                            <textarea name="notes" class="form-input" rows="2" placeholder="Any special requests, dietary restrictions, or other information"></textarea>
+                        </div>
+
+                    </div>
+                </div>
+
+                <!-- Form Submission -->
+                <div class="text-center mt-10">
+                    <button type="submit" class="submit-btn">submit inquiry</button>
+                    <p class="instruction-text italic mt-5">we'll be in touch within 48 hours to discuss your event!</p>
+                </div>
+
+            </form>
         </div>
-    </section>
+    </div>
+</section>
+
+<!-- Required Tag Style -->
+<style>
+.required-tag {
+    color: red;
+    font-size: 0.625rem; /* ~10px */
+    font-weight: 500;    /* medium */
+    font-family: "Abadi MT Std Light", sans-serif;
+}
+</style>
 
     <footer class="border-t border-white/10 py-8" style="background-color: #536872; background-image: url('https://www.transparenttextures.com/patterns/brick-wall-dark.png');"> 
         <div class="container mx-auto px-6">
@@ -626,7 +694,7 @@
                 
                 <!-- Links -->
                 <div class="flex items-center space-x-6">
-                    <a href="assets/menu.pdf" class="text-sm hover:text-accent text-white transition-colors duration-200">View Menu</a>
+                    <a href="../assets/menu.pdf" class="text-sm hover:text-accent text-white transition-colors duration-200">View Menu</a>
                     <a href="catering.html" class="text-sm hover:text-accent text-white transition-colors duration-200">Order Catering</a>
                     
                     <!-- Social Icons -->
